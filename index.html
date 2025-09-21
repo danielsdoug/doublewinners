@@ -63,9 +63,9 @@
   <script>
     // === QUICK SETUP (edit these) ===
     window.DWOC_CONFIG = {
-      CAL_ID: 'c_68a6088086a57a5f1a7552c92d86b7d64eda7be32444a1dcbed5f40f393b6042@group.calendar.google.com', // e.g., doublewinnersoc@gmail.com or the group calendar ID
+      CAL_ID: 'replace-me@group.calendar.google.com', // e.g., doublewinnersoc@gmail.com or the group calendar ID
       TIMEZONE: 'America/Los_Angeles',
-      ICS_URL: 'https://calendar.google.com/calendar/ical/c_68a6088086a57a5f1a7552c92d86b7d64eda7be32444a1dcbed5f40f393b6042%40group.calendar.google.com/public/basic.ics' // optional
+      ICS_URL: 'https://calendar.google.com/calendar/ical/replace-me%40group.calendar.google.com/public/basic.ics' // optional
     };
   </script>
 
@@ -79,6 +79,8 @@
       const CAL_ID = qp.get('cal') || cfg.CAL_ID;
       const TIMEZONE = cfg.TIMEZONE || 'America/Los_Angeles';
       const ICS_URL = qp.get('ics') || cfg.ICS_URL;
+      const hParam = parseInt(qp.get('h') || '', 10);
+      const agendaHeight = Number.isFinite(hParam) ? hParam : (window.innerWidth < 768 ? 520 : 760);
 
       const agendaParams = new URLSearchParams({
         src: CAL_ID,
@@ -173,7 +175,7 @@
                 <div className="mt-1 text-sm text-neutral-600">✓ One‑click subscribe (Google & iCal)</div>
                 <div className="mt-1 text-sm text-neutral-600">✓ Printer‑friendly literature packets</div>
                 <div className="mt-4 overflow-hidden rounded-xl border">
-                  <iframe id="agenda" title="Double Winners OC Meetings (Agenda)" src={calendarAgendaSrc} className="h-[360px] w-full" loading="lazy"></iframe>
+                  <iframe id="agenda" title="Double Winners OC Meetings (Agenda)" src={calendarAgendaSrc} className="w-full" style={{ height: agendaHeight }} loading="lazy"></iframe>
                 </div>
                 <div className="calendar-controls mt-3 flex flex-wrap items-center gap-3">
                   <a href={subscribeHref} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm btn-accent">Open full calendar</a>
