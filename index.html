@@ -47,6 +47,9 @@
     iframe.calendar{width:100%;min-height:600px;border:0;border-radius:12px;background:#0c0f16}
     .notice{background:#0b1222;border:1px dashed #253152;border-radius:12px;padding:12px;color:#c9d6ff}
     .list-tight li{margin:.25rem 0}
+    .thumb-list{display:grid;gap:12px}
+    .thumb-list li{list-style:none;display:flex;align-items:center;gap:10px}
+    .thumb-list img{width:50px;height:auto;border:1px solid var(--border);border-radius:6px}
   </style>
 </head>
 <body>
@@ -65,7 +68,15 @@
   </header>
 
   <main class="wrap">
-    <!-- Intro -->
+    <!-- What is a Double Winner -->
+    <section class="card">
+      <h2>What is a Double Winner?</h2>
+      <p>
+        We call ourselves DOUBLE WINNERS because, firstly, we are WINNERS in that we follow the 12 steps of AA which teaches us how to live and deal with ourselves. Secondly, we are also WINNERS because we follow the 12 steps of Al-anon which teaches us how to live and deal with everyone else in our lives. The two together makes us DOUBLE WINNERS, and through the two programs, we learn how to live internally and externally on the journey to greater serenity. Accordingly, we learn how to apply good principles and concepts in all our relationships, including with ourselves.
+      </p>
+    </section>
+
+    <!-- About -->
     <section id="about" class="card">
       <h2>About Double Winners</h2>
       <p>
@@ -90,7 +101,7 @@
           </div>
 
           <div class="notice" style="margin-top:12px">
-           temp If the calendar doesn’t load, it may be a privacy or network setting. You can still use the buttons above.
+            If the calendar doesn’t load, it may be a privacy or network setting. You can still use the buttons above.
           </div>
 
           <ul class="clean list-tight" style="margin-top:10px">
@@ -101,11 +112,10 @@
         </div>
 
         <div>
-          <!-- Replace the src value below with your actual public embed URL if different -->
           <iframe
             id="gcalFrame"
             class="calendar"
-            src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%230B0F16&ctz=America%2FLos_Angeles&mode=AGENDA&showPrint=0&showTabs=0&showTitle=0&src=doublewinnersoc%40group.calendar.google.com"
+            src="https://calendar.google.com/calendar/embed?src=c_68a6088086a57a5f1a7552c92d86b7d64eda7be32444a1dcbed5f40f393b6042%40group.calendar.google.com&ctz=America%2FLos_Angeles"
             frameborder="0" scrolling="no"
             title="Double Winners OC Calendar">
           </iframe>
@@ -116,13 +126,14 @@
     <!-- Handouts -->
     <section id="handouts" class="card">
       <h2>Group Handouts</h2>
-      <ul class="clean">
-        <li><a href="assets/Double-Winners-Leader-Format.pdf" target="_blank" rel="noopener">Double-Winners Leader Format (PDF)</a></li>
-        <li><a href="assets/dw-secretary-format.pdf" target="_blank" rel="noopener">DW Secretary Format (PDF)</a></li>
-        <li><a href="assets/dos-and-donts.pdf" target="_blank" rel="noopener">Dos and Don’ts (PDF)</a></li>
-        <li><a href="assets/Detachment.pdf" target="_blank" rel="noopener">Detachment (PDF)</a></li>
-        <li><a href="assets/letting-go.pdf" target="_blank" rel="noopener">Letting Go (PDF)</a></li>
-        <li><a href="assets/opening-prayer.pdf" target="_blank" rel="noopener">Opening Prayer (PDF)</a></li>
+      <ul class="thumb-list">
+        <li><img src="assets/thumb-leader.png" alt="Leader Format thumbnail"><a href="assets/Double-Winners-Leader-Format.pdf" target="_blank" rel="noopener">Double-Winners Leader Format (PDF)</a></li>
+        <li><img src="assets/thumb-secretary.png" alt="Secretary Format thumbnail"><a href="assets/dw-secretary-format.pdf" target="_blank" rel="noopener">DW Secretary Format (PDF)</a></li>
+        <li><img src="assets/thumb-dos.png" alt="Dos and Don’ts thumbnail"><a href="assets/dos-and-donts.pdf" target="_blank" rel="noopener">Dos and Don’ts (PDF)</a></li>
+        <li><img src="assets/thumb-dos-card.png" alt="Dos and Don’ts Card thumbnail"><a href="assets/dos_and_donts_business_card.pdf" target="_blank" rel="noopener">Dos and Don’ts Business Card (PDF)</a></li>
+        <li><img src="assets/thumb-detachment.png" alt="Detachment thumbnail"><a href="assets/Detachment.pdf" target="_blank" rel="noopener">Detachment (PDF)</a></li>
+        <li><img src="assets/thumb-lettinggo.png" alt="Letting Go thumbnail"><a href="assets/letting-go.pdf" target="_blank" rel="noopener">Letting Go (PDF)</a></li>
+        <li><img src="assets/thumb-prayer.png" alt="Opening Prayer thumbnail"><a href="assets/opening-prayer.pdf" target="_blank" rel="noopener">Opening Prayer (PDF)</a></li>
       </ul>
     </section>
 
@@ -140,30 +151,23 @@
     <small>© <span id="year"></span> Double Winners Orange County, Calif.</small>
   </footer>
 
-  <!-- Calendar helper: derive ICS link from the embed src automatically -->
   <script>
     (function(){
       const yearEl = document.getElementById('year');
       if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-      // Configure calendar here if your ID changes
       const frame = document.getElementById('gcalFrame');
       const openBtn = document.getElementById('openCal');
       const icsBtn  = document.getElementById('icsLink');
 
-      // Extract ?src=... from the embed URL and build ICS + Web links
       function getParam(u, key){
         try{ return new URL(u).searchParams.get(key) || ""; }catch(e){ return ""; }
       }
       function buildLinks(){
-        const src = getParam(frame.src, 'src'); // e.g. doublewinnersoc@group.calendar.google.com
+        const src = getParam(frame.src, 'src');
         if(!src){ return; }
-
-        // Open in Google Calendar (web)
         const web = "https://calendar.google.com/calendar/u/0/r?cid=" + encodeURIComponent(src);
         openBtn.href = web;
-
-        // ICS (public iCal). If your calendar is public, this will work.
         const ics = "https://calendar.google.com/calendar/ical/" +
                     encodeURIComponent(src) + "/public/basic.ics";
         icsBtn.href = ics;
