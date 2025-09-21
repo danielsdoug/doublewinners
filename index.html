@@ -71,6 +71,7 @@
     };
   </script>
 
+  <script>window.DWOC_EMBED_SRC="https://calendar.google.com/calendar/embed?height=800&wkst=2&ctz=America%2FLos_Angeles&mode=AGENDA&src=Y182OGE2MDg4MDg2YTU3YTVmMWE3NTUyYzkyZDg2YjdkNjRlZGE3YmUzMjQ0NGExZGNiZWQ1ZjQwZjM5M2I2MDQyQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%233f51b5";</script>
   <script type="text/babel" data-presets="react">
     const { useState, useMemo } = React;
 
@@ -81,6 +82,7 @@
       const CAL_ID = qp.get('cal') || cfg.CAL_ID;
       const TIMEZONE = cfg.TIMEZONE || 'America/Los_Angeles';
       const ICS_URL = qp.get('ics') || cfg.ICS_URL;
+      const embedOverride = qp.get('embed') || window.DWOC_EMBED_SRC || cfg.EMBED_SRC;
       const hParam = parseInt(qp.get('h') || '', 10);
       const agendaHeight = Number.isFinite(hParam) ? hParam : (window.innerWidth < 768 ? 520 : 760);
 
@@ -103,9 +105,11 @@
         wkst: '1'
       });
       const calBase = 'https://calendar.google.com/calendar/embed';
-      const calendarAgendaSrc = `${calBase}?${agendaParams.toString()}`;
+      const calendarAgendaSrc = embedOverride || `${calBase}?${agendaParams.toString()}`;
       const calendarMonthSrc  = `${calBase}?${monthParams.toString()}`;
-      const subscribeHref = `https://calendar.google.com/calendar/u/0/r?cid=${encodeURIComponent(CAL_ID)}`;
+      const extractId = (u) => { try { const url = new URL(u); let s = url.searchParams.get('src'); if(!s) return null; try { s = decodeURIComponent(s); } catch(e) {} try { const dec = atob(s); if(dec.includes('@')) return dec; } catch(e) {} return s; } catch(e) { return null; } };
+      const CAL_FOR_LINKS = CAL_ID || (embedOverride ? extractId(embedOverride) : null) || '';
+      const subscribeHref = CAL_FOR_LINKS ? `https://calendar.google.com/calendar/u/0/r?cid=${encodeURIComponent(CAL_FOR_LINKS)}` : '#';
 
       const locations = [
         {
