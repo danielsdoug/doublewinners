@@ -63,9 +63,9 @@
   <script>
     // === QUICK SETUP (edit these) ===
     window.DWOC_CONFIG = {
-      CAL_ID: 'replace-me@group.calendar.google.com', // e.g., doublewinnersoc@gmail.com or the group calendar ID
+      CAL_ID: 'c_68a6088086a57a5f1a7552c92d86b7d64eda7be32444a1dcbed5f40f393b6042@group.calendar.google.com', // e.g., doublewinnersoc@gmail.com or the group calendar ID
       TIMEZONE: 'America/Los_Angeles',
-      ICS_URL: 'https://calendar.google.com/calendar/ical/replace-me%40group.calendar.google.com/public/basic.ics' // optional
+      ICS_URL: 'https://calendar.google.com/calendar/ical/c_68a6088086a57a5f1a7552c92d86b7d64eda7be32444a1dcbed5f40f393b6042%40group.calendar.google.com/public/basic.ics' // optional
     };
   </script>
 
@@ -74,7 +74,11 @@
 
     function App(){
       const [compact, setCompact] = useState(false);
-      const { CAL_ID, TIMEZONE, ICS_URL } = window.DWOC_CONFIG;
+      const cfg = window.DWOC_CONFIG || {};
+      const qp = new URLSearchParams(window.location.search);
+      const CAL_ID = qp.get('cal') || cfg.CAL_ID;
+      const TIMEZONE = cfg.TIMEZONE || 'America/Los_Angeles';
+      const ICS_URL = qp.get('ics') || cfg.ICS_URL;
 
       const agendaParams = new URLSearchParams({
         src: CAL_ID,
