@@ -2,44 +2,121 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Double Winners OC</title>
-  <link rel="stylesheet" href="assets/styles.css" />
+
+  <!-- Dark Theme Styles -->
+  <style>
+    :root{
+      --bg:#0f1115;
+      --panel:#141824;
+      --text:#e7ebf3;
+      --muted:#9aa4b2;
+      --link:#7aa2ff;
+      --link-hover:#a9c1ff;
+      --accent:#2b61ff;
+      --border:#222836;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Ubuntu,"Helvetica Neue",Arial,sans-serif;line-height:1.6}
+    a{color:var(--link);text-decoration:none}
+    a:hover{color:var(--link-hover);text-decoration:underline}
+    header{position:sticky;top:0;background:rgba(15,17,21,.8);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--border);z-index:20}
+    .wrap{max-width:980px;margin:auto;padding:24px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .brand h1{margin:0;font-size:1.6rem;letter-spacing:.3px}
+    nav{margin-top:10px}
+    nav a{margin-right:18px;font-weight:600}
+    main .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin:18px 0}
+    h2{margin:.2rem 0 1rem;font-size:1.35rem}
+    ul.clean{margin:0;padding-left:18px}
+    .grid{display:grid;gap:18px}
+    @media(min-width:900px){ .grid{grid-template-columns:1.1fr .9fr} }
+    .btnrow{display:flex;flex-wrap:wrap;gap:10px;margin:.6rem 0 0}
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 14px;border-radius:12px;border:1px solid var(--border);
+      background:#1a2030;color:var(--text);font-weight:600;cursor:pointer
+    }
+    .btn:hover{background:#20283b}
+    .muted{color:var(--muted)}
+    footer{border-top:1px solid var(--border);margin-top:30px}
+    small{color:var(--muted)}
+    iframe.calendar{width:100%;min-height:600px;border:0;border-radius:12px;background:#0c0f16}
+    .notice{background:#0b1222;border:1px dashed #253152;border-radius:12px;padding:12px;color:#c9d6ff}
+    .list-tight li{margin:.25rem 0}
+  </style>
 </head>
 <body>
   <header>
-    <h1>Double Winners OC</h1>
-    <nav>
-      <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#meetings">Meetings</a></li>
-        <li><a href="#dw-handouts">Handouts</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
+    <div class="wrap">
+      <div class="brand">
+        <h1>Double Winners OC</h1>
+      </div>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#meetings">Meetings</a>
+        <a href="#handouts">Handouts</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
   </header>
 
-  <main>
-    <section id="about">
+  <main class="wrap">
+    <!-- Intro -->
+    <section id="about" class="card">
       <h2>About Double Winners</h2>
       <p>
-        Double Winners OC provides a safe and supportive fellowship for people
-        seeking recovery. Here you’ll find resources, meeting formats, and
-        guidance for leaders and members.
+        Double Winners OC provides a safe, welcoming fellowship for people seeking recovery.
+        Below you’ll find meeting info, a live calendar, and downloadable group handouts.
       </p>
     </section>
 
-    <section id="meetings">
-      <h2>Meetings</h2>
-      <p>
-        We host regular group meetings both in person and online. Please check
-        back here for the latest meeting schedules and details.
-      </p>
+    <!-- Meetings + Calendar -->
+    <section id="meetings" class="card">
+      <div class="grid">
+        <div>
+          <h2>Meetings</h2>
+          <p class="muted">
+            Check the live calendar for the latest schedule. Use the buttons to open the calendar
+            in Google Calendar or subscribe via ICS in your preferred app (Apple Calendar, Outlook, etc.).
+          </p>
+
+          <div class="btnrow">
+            <a id="openCal" class="btn" href="#" target="_blank" rel="noopener">Open in Google Calendar</a>
+            <a id="icsLink" class="btn" href="#" target="_blank" rel="noopener">Subscribe (ICS)</a>
+          </div>
+
+          <div class="notice" style="margin-top:12px">
+            If the calendar doesn’t load, it may be a privacy or network setting. You can still use the buttons above.
+          </div>
+
+          <ul class="clean list-tight" style="margin-top:10px">
+            <li>In-person and online formats.</li>
+            <li>Service opportunities available (Secretary, Leader).</li>
+            <li>Please arrive a few minutes early if you’re able.</li>
+          </ul>
+        </div>
+
+        <div>
+          <!-- Replace the src value below with your actual public embed URL if different -->
+          <iframe
+            id="gcalFrame"
+            class="calendar"
+            src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%230B0F16&ctz=America%2FLos_Angeles&mode=AGENDA&showPrint=0&showTabs=0&showTitle=0&src=doublewinnersoc%40group.calendar.google.com"
+            frameborder="0" scrolling="no"
+            title="Double Winners OC Calendar">
+          </iframe>
+        </div>
+      </div>
     </section>
 
-    <section id="dw-handouts" class="downloads">
+    <!-- Handouts -->
+    <section id="handouts" class="card">
       <h2>Group Handouts</h2>
-      <ul>
+      <ul class="clean">
         <li><a href="assets/Double-Winners-Leader-Format.pdf" target="_blank" rel="noopener">Double-Winners Leader Format (PDF)</a></li>
         <li><a href="assets/dw-secretary-format.pdf" target="_blank" rel="noopener">DW Secretary Format (PDF)</a></li>
         <li><a href="assets/dos-and-donts.pdf" target="_blank" rel="noopener">Dos and Don’ts (PDF)</a></li>
@@ -49,21 +126,50 @@
       </ul>
     </section>
 
-    <section id="contact">
+    <!-- Contact -->
+    <section id="contact" class="card">
       <h2>Contact</h2>
       <p>
-        Questions? Reach out to our group organizers at
+        Questions? Email us at
         <a href="mailto:info@doublewinnersoc.org">info@doublewinnersoc.org</a>.
       </p>
     </section>
   </main>
 
-  <footer>
-    <p>&copy; <span id="year"></span> Double Winners OC. All rights reserved.</p>
+  <footer class="wrap">
+    <small>© <span id="year"></span> Double Winners OC. All rights reserved.</small>
   </footer>
 
+  <!-- Calendar helper: derive ICS link from the embed src automatically -->
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    (function(){
+      const yearEl = document.getElementById('year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+      // Configure calendar here if your ID changes
+      const frame = document.getElementById('gcalFrame');
+      const openBtn = document.getElementById('openCal');
+      const icsBtn  = document.getElementById('icsLink');
+
+      // Extract ?src=... from the embed URL and build ICS + Web links
+      function getParam(u, key){
+        try{ return new URL(u).searchParams.get(key) || ""; }catch(e){ return ""; }
+      }
+      function buildLinks(){
+        const src = getParam(frame.src, 'src'); // e.g. doublewinnersoc@group.calendar.google.com
+        if(!src){ return; }
+
+        // Open in Google Calendar (web)
+        const web = "https://calendar.google.com/calendar/u/0/r?cid=" + encodeURIComponent(src);
+        openBtn.href = web;
+
+        // ICS (public iCal). If your calendar is public, this will work.
+        const ics = "https://calendar.google.com/calendar/ical/" +
+                    encodeURIComponent(src) + "/public/basic.ics";
+        icsBtn.href = ics;
+      }
+      buildLinks();
+    })();
   </script>
 </body>
 </html>
