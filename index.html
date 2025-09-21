@@ -37,10 +37,10 @@
     .border, .border-b, .border-t{ border-color:var(--border)!important; }
 
     /* Accent styles */
-    a, .link-accent{ color:var(--accent)!important; }
+    .link-accent{ color: var(--accent)!important; }
     .btn-accent{ border:1px solid var(--accent); color:var(--accent); }
     .btn-accent:hover{ background:rgba(34,211,238,.08); }
-    .bg-accent{ background:var(--accent); color:#05242a; }
+    .bg-accent{ background: var(--accent); color:#061a24; font-weight:600; } .bg-accent *{ color:#061a24!important; } .bg-accent:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
     input[type="checkbox"]{ accent-color: var(--accent); }
 
     /* Card surfaces & shadows */
@@ -139,9 +139,9 @@
                 </div>
               </div>
               <nav className="hidden gap-3 text-sm md:flex">
-                <a href="#meetings" className="hover:underline">Meetings</a>
-                <a href="#locations" className="hover:underline">Locations</a>
-                <a href="#resources" className="hover:underline">Resources</a>
+                <a href="#meetings" className="hover:underline link-accent">Meetings</a>
+                <a href="#locations" className="hover:underline link-accent">Locations</a>
+                <a href="#resources" className="hover:underline link-accent">Resources</a>
               </nav>
               <div className="flex items-center gap-3">
                 <label className="flex cursor-pointer items-center gap-2 text-xs text-neutral-600">
