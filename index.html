@@ -55,6 +55,8 @@
       a::after{ content:" (" attr(href) ")"; font-size:.85em; color:#555; }
       .print-block{ break-inside: avoid; }
     }
+    .agenda-frame{ height: 880px; }
+    @media (max-width: 768px){ .agenda-frame{ height: 560px; } }
   </style>
 </head>
 <body class="min-h-screen bg-neutral-50 text-neutral-900">
@@ -175,7 +177,7 @@
                 <div className="mt-1 text-sm text-neutral-600">✓ One‑click subscribe (Google & iCal)</div>
                 <div className="mt-1 text-sm text-neutral-600">✓ Printer‑friendly literature packets</div>
                 <div className="mt-4 overflow-hidden rounded-xl border">
-                  <iframe id="agenda" title="Double Winners OC Meetings (Agenda)" src={calendarAgendaSrc} className="w-full" style={{ height: agendaHeight }} loading="lazy"></iframe>
+                  <iframe id="agenda" title="Double Winners OC Meetings (Agenda)" src={calendarAgendaSrc} className="w-full agenda-frame" loading="lazy"></iframe>
                 </div>
                 <div className="calendar-controls mt-3 flex flex-wrap items-center gap-3">
                   <a href={subscribeHref} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm btn-accent">Open full calendar</a>
