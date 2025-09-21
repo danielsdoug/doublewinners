@@ -65,9 +65,9 @@
   <script>
     // === QUICK SETUP (edit these) ===
     window.DWOC_CONFIG = {
-      CAL_ID: 'c_68a6088086a57a5f1a7552c92d86b7d64eda7be32444a1dcbed5f40f393b6042@group.calendar.google.com'
+      CAL_ID: 'replace-me@group.calendar.google.com', // e.g., doublewinnersoc@gmail.com or the group calendar ID
       TIMEZONE: 'America/Los_Angeles',
-      ICS_URL: 'https://calendar.google.com/calendar/ical/c_68a6088086a57a5f1a7552c92d86b7d64eda7be32444a1dcbed5f40f393b6042%40group.calendar.google.com/public/basic.ics' // optional
+      ICS_URL: 'https://calendar.google.com/calendar/ical/replace-me%40group.calendar.google.com/public/basic.ics' // optional
     };
   </script>
 
@@ -109,8 +109,10 @@
       const calendarMonthSrc  = `${calBase}?${monthParams.toString()}`;
       const extractId = (u) => { try { const url = new URL(u); let s = url.searchParams.get('src'); if(!s) return null; try { s = decodeURIComponent(s); } catch(e) {} try { const dec = atob(s); if(dec.includes('@')) return dec; } catch(e) {} return s; } catch(e) { return null; } };
       const CAL_FOR_LINKS = CAL_ID || (embedOverride ? extractId(embedOverride) : null) || '';
+      const extractId = (u) => { try { const url = new URL(u); let s = url.searchParams.get('src'); if(!s) return null; try { s = decodeURIComponent(s); } catch(e) {} try { const dec = atob(s); if(dec.includes('@')) return dec; } catch(e) {} return s; } catch(e) { return null; } };
+      const CAL_FOR_LINKS = CAL_ID || (embedOverride ? extractId(embedOverride) : null) || '';
       const subscribeHref = CAL_FOR_LINKS ? `https://calendar.google.com/calendar/u/0/r?cid=${encodeURIComponent(CAL_FOR_LINKS)}` : '#';
-
+      const ICS_URL_RESOLVED = (ICS_URL && ICS_URL.length>0) ? ICS_URL : (CAL_FOR_LINKS ? `https://calendar.google.com/calendar/ical/${encodeURIComponent(CAL_FOR_LINKS)}/public/basic.ics` : '');
       const locations = [
         {
           name: 'San Clemente – Community Center',
@@ -167,7 +169,7 @@
 
           {/* Hero with Agenda calendar */}
           <section className="border-b bg-gradient-to-b from-white to-neutral-100">
-            <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-6 px-4 py-10 md:grid-cols-2 md:py-16">
+            <div className="mx-auto grid max-w-6xl grid-cols-1 items-start gap-6 px-4 py-8 md:grid-cols-2 md:py-10">
               <div>
                 <h2 className="text-3xl font-bold md:text-4xl">Welcome to Double Winners — OC</h2>
                 <p className="mt-3 text-neutral-700">A simple home for meeting schedules, locations, and printable literature for our Orange County community.</p>
@@ -185,8 +187,8 @@
                 </div>
                 <div className="calendar-controls mt-3 flex flex-wrap items-center gap-3">
                   <a href={subscribeHref} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm btn-accent">Open full calendar</a>
-                  {ICS_URL && (
-                    <a href={ICS_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm btn-accent">ICS feed</a>
+                  {ICS_URL_RESOLVED && (
+                    <a href={ICS_URL_RESOLVED} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm btn-accent">ICS feed</a>
                   )}
                 </div>
               </div>
