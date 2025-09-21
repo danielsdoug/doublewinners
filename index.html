@@ -1,4 +1,272 @@
-<!doctype html>
+<!doctype html><!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Double Winners — Orange County</title>
+  <meta name="description" content="Meeting info, schedules, and printable literature for Double Winners in Orange County, CA." />
+  <link rel="icon" href="/favicon2.ico" />
+  <!-- Tailwind CDN (no build needed) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- React + ReactDOM UMD and Babel for in-browser JSX (preview only) -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    :root{
+      --bg:#0b1220;           /* deep navy (page background) */
+      --surface:#0f172a;      /* slate-900 (cards/sections) */
+      --text:#e5e7eb;         /* text on dark */
+      --muted:#94a3b8;        /* secondary text */
+      --border:rgba(148,163,184,.25);
+      --accent:#4f6fae;       /* slate-blue accent */       /* toned-down teal accent */       /* cyan accent like WiFiMakeover */
+    }
+
+    /* Base dark theme */
+    body{ background:var(--bg); color:var(--text); }
+    header, footer{ background:rgba(15,23,42,.85)!important; border-color:var(--border)!important; backdrop-filter: blur(6px); }
+    section{ background:transparent!important; border-color:var(--border)!important; }
+
+    /* Override light Tailwind utility backgrounds on this page */
+    .bg-white, .bg-neutral-50{ background:var(--surface)!important; }
+    .bg-gradient-to-b{ background:linear-gradient(to bottom, rgba(11,18,32,1), rgba(15,23,42,1))!important; }
+
+    /* Text & borders */
+    .text-neutral-900{ color:var(--text)!important; }
+    .text-neutral-700, .text-neutral-600, .text-neutral-500{ color:var(--muted)!important; }
+    .border, .border-b, .border-t{ border-color:var(--border)!important; }
+
+    /* Accent styles */
+    .link-accent{ color: var(--accent)!important; }
+    .btn-accent{ border:1px solid var(--accent); color: var(--accent); }
+    .btn-accent:hover{ background: rgba(79,111,174,.14); }
+    .bg-accent{ background: var(--accent); color:#061a24; font-weight:600; } .bg-accent *{ color:#061a24!important; } .bg-accent:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; } .bg-accent *{ color:#061a24!important; } .bg-accent:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+    input[type="checkbox"]{ accent-color: var(--accent); }
+
+    /* Card surfaces & shadows */
+    .rounded-2xl.border{ background:var(--surface)!important; }
+    .shadow-sm{ box-shadow:0 1px 2px rgba(0,0,0,.4)!important; }
+
+    /* Print: revert to light for paper */
+    @media print{
+      header, nav, .no-print, .shadow, .calendar-controls { display:none!important; }
+      body{ background:#fff!important; color:#111!important; }
+      .rounded-2xl.border{ background:#fff!important; border-color:#ddd!important; }
+      a::after{ content:" (" attr(href) ")"; font-size:.85em; color:#555; }
+      .print-block{ break-inside: avoid; }
+    }
+    .agenda-frame{ height: 880px; }
+    @media (max-width: 768px){ .agenda-frame{ height: 560px; } }
+  </style>
+</head>
+<body class="min-h-screen bg-neutral-50 text-neutral-900">
+  <div id="root"></div>
+
+  <script>
+    // === QUICK SETUP (edit these) ===
+    window.DWOC_CONFIG = {
+      CAL_ID: 'replace-me@group.calendar.google.com', // e.g., doublewinnersoc@gmail.com or the group calendar ID
+      TIMEZONE: 'America/Los_Angeles',
+      ICS_URL: 'https://calendar.google.com/calendar/ical/replace-me%40group.calendar.google.com/public/basic.ics' // optional
+    };
+  </script>
+
+  <script>window.DWOC_EMBED_SRC="https://calendar.google.com/calendar/embed?height=800&wkst=2&ctz=America%2FLos_Angeles&mode=AGENDA&src=Y182OGE2MDg4MDg2YTU3YTVmMWE3NTUyYzkyZDg2YjdkNjRlZGE3YmUzMjQ0NGExZGNiZWQ1ZjQwZjM5M2I2MDQyQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%233f51b5";</script>
+  <script type="text/babel" data-presets="react">
+    const { useState, useMemo } = React;
+
+    function App(){
+      const [compact, setCompact] = useState(false);
+      const cfg = window.DWOC_CONFIG || {};
+      const qp = new URLSearchParams(window.location.search);
+      const CAL_ID = qp.get('cal') || cfg.CAL_ID;
+      const TIMEZONE = cfg.TIMEZONE || 'America/Los_Angeles';
+      const ICS_URL = qp.get('ics') || cfg.ICS_URL;
+      const embedOverride = qp.get('embed') || window.DWOC_EMBED_SRC || cfg.EMBED_SRC;
+      const dwocExtractId = (u) => { try { const url = new URL(u); let s = url.searchParams.get('src'); if(!s) return null; try { s = decodeURIComponent(s); } catch(e) {} try { const dec = atob(s); if(dec.includes('@')) return dec; } catch(e) {} return s; } catch(e) { return null; } };
+      const CAL_FOR_LINKS = CAL_ID || (embedOverride ? dwocExtractId(embedOverride) : null) || '';
+      const subscribeHref = CAL_FOR_LINKS ? `https://calendar.google.com/calendar/u/0/r?cid=${encodeURIComponent(CAL_FOR_LINKS)}` : '#';
+      const ICS_URL_RESOLVED = (ICS_URL && ICS_URL.length>0) ? ICS_URL : (CAL_FOR_LINKS ? `https://calendar.google.com/calendar/ical/${encodeURIComponent(CAL_FOR_LINKS)}/public/basic.ics` : '');
+      const hParam = parseInt(qp.get('h') || '', 10);
+      const agendaHeight = Number.isFinite(hParam) ? hParam : (window.innerWidth < 768 ? 520 : 760);
+
+      const agendaParams = new URLSearchParams({
+        src: CAL_ID,
+        ctz: TIMEZONE,
+        showPrint: '0',
+        showTabs: '0',
+        showTitle: '0',
+        mode: 'AGENDA',
+        wkst: '1'
+      });
+      const monthParams  = new URLSearchParams({
+        src: CAL_ID,
+        ctz: TIMEZONE,
+        showPrint: '0',
+        showTabs: '0',
+        showTitle: '0',
+        mode: 'MONTH',
+        wkst: '1'
+      });
+      const calBase = 'https://calendar.google.com/calendar/embed';
+      const calendarAgendaSrc = embedOverride || `${calBase}?${agendaParams.toString()}`;
+      const calendarMonthSrc  = `${calBase}?${monthParams.toString()}`;
+       let s = url.searchParams.get('src'); if(!s) return null; try { s = decodeURIComponent(s); } catch(e) {} try { const dec = atob(s); if(dec.includes('@')) return dec; } catch(e) {} return s; } catch(e) { return null; } };
+      
+       let s = url.searchParams.get('src'); if(!s) return null; try { s = decodeURIComponent(s); } catch(e) {} try { const dec = atob(s); if(dec.includes('@')) return dec; } catch(e) {} return s; } catch(e) { return null; } };
+      
+      
+      
+      const locations = [
+        {
+          name: 'San Clemente – Community Center',
+          address: '100 N Calle Seville, San Clemente, CA 92672',
+          maps: 'https://maps.google.com/?q=100+N+Calle+Seville+San+Clemente+CA+92672',
+          notes: 'Main room, free parking in rear lot.',
+          scheduleHint: 'Thursdays 7:00–8:15 PM (check calendar for holiday changes)'
+        },
+        {
+          name: 'Dana Point – Lantern Village',
+          address: '24050 Dana Point Harbor Dr, Dana Point, CA 92629',
+          maps: 'https://maps.google.com/?q=24050+Dana+Point+Harbor+Dr+Dana+Point+CA+92629',
+          notes: 'Upstairs; elevator available.',
+          scheduleHint: 'Sundays 5:00–6:00 PM'
+        }
+      ];
+
+      const resources = [
+        { title: 'The Opening Prayer', href: '/resources/dw-opening-prayer.pdf', desc: 'Standard opening used at OC Double Winners meetings.' },
+        { title: 'Detachment', href: '/resources/dw-detachment.pdf', desc: 'Reading on healthy separation and boundaries.' },
+        { title: 'Letting Go', href: '/resources/dw-letting-go.pdf', desc: 'Reading to release what isn’t ours to carry.' },
+        { title: "Do's and Don’ts", href: '/resources/dw-dos-and-donts.pdf', desc: 'Practical reminders for recovery in relationships.' },
+        { title: 'Leader Format', href: '/resources/dw-leader-format.pdf', desc: 'Suggested script/flow for meeting leaders.' },
+        { title: 'Secretary Format', href: '/resources/dw-secretary-format.pdf', desc: 'Quick checklist and announcements.' },
+        { title: 'Optional Closing Reading', href: '/resources/dw-optional-closing.pdf', desc: 'Optional close to end the meeting.' },
+      ];
+
+      return (
+        <div>
+          {/* Header */}
+          <header className="sticky top-0 z-40 border-b bg-white/80 backdrop-blur">
+            <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
+              <div className="flex items-center gap-3">
+                <div className="grid h-9 w-9 place-items-center rounded-2xl font-bold text-white" style={{ backgroundColor: 'var(--accent)' }}>DW</div>
+                <div>
+                  <h1 className="text-lg font-semibold leading-tight">Double Winners — Orange County</h1>
+                  <p className="text-xs text-neutral-500">Meeting info • schedules • literature</p>
+                </div>
+              </div>
+              <nav className="hidden gap-3 text-sm md:flex">
+                <a href="#agenda" className="hover:underline link-accent">Meetings</a>
+                <a href="#locations" className="hover:underline link-accent">Locations</a>
+                <a href="#resources" className="hover:underline link-accent">Resources</a>
+              </nav>
+              <div className="flex items-center gap-3">
+                <label className="flex cursor-pointer items-center gap-2 text-xs text-neutral-600">
+                  <input type="checkbox" className="h-4 w-4" checked={compact} onChange={e=>setCompact(e.target.checked)} />
+                  Compact
+                </label>
+                <a href={subscribeHref} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm btn-accent hover:bg-neutral-50">Add to Google Calendar</a>
+              </div>
+            </div>
+          </header>
+
+          {/* Hero with Agenda calendar */}
+          <section className="border-b bg-gradient-to-b from-white to-neutral-100">
+            <div className="mx-auto grid max-w-6xl grid-cols-1 items-start gap-6 px-4 py-8 md:grid-cols-2 md:py-10">
+              <div>
+                <h2 className="text-3xl font-bold md:text-4xl">Welcome to Double Winners — OC</h2>
+                <p className="mt-3 text-neutral-700">A simple home for meeting schedules, locations, and printable literature for our Orange County community.</p>
+                <div className="mt-5 flex flex-wrap items-center gap-3">
+                  <a href="#agenda" className="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2 text-white">See Meetings</a>
+                  <button onClick={()=>window.print()} className="inline-flex items-center gap-2 rounded-xl border px-4 py-2">Print Literature</button>
+                </div>
+              </div>
+              <div className="rounded-2xl border bg-white p-4 shadow-sm">
+                <div className="text-sm text-neutral-600">✓ Live, auto‑updating Google Calendar</div>
+                <div className="mt-1 text-sm text-neutral-600">✓ One‑click subscribe (Google & iCal)</div>
+                <div className="mt-1 text-sm text-neutral-600">✓ Printer‑friendly literature packets</div>
+                <div className="mt-4 overflow-hidden rounded-xl border">
+                  <iframe id="agenda" title="Double Winners OC Meetings (Agenda)" src={calendarAgendaSrc} className="w-full agenda-frame" loading="lazy"></iframe>
+                </div>
+                <div className="calendar-controls mt-3 flex flex-wrap items-center gap-3">
+                  <a href={subscribeHref} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm btn-accent">Open full calendar</a>
+                  {ICS_URL_RESOLVED && (
+                    <a href={ICS_URL_RESOLVED} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm btn-accent">ICS feed</a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Meetings (Month view) */}
+          
+
+          {/* Locations */}
+          <section id="locations" className="border-b bg-neutral-50">
+            <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
+              <h3 className="text-2xl font-semibold">Locations</h3>
+              <div className={`mt-4 grid gap-4 ${compact ? 'md:grid-cols-3' : 'md:grid-cols-2'}`}>
+                {locations.map((loc) => (
+                  <div key={loc.name} className="rounded-2xl border bg-white p-4 print-block">
+                    <h4 className="text-base font-semibold">{loc.name}</h4>
+                    <div className="mt-2 text-sm text-neutral-700">{loc.address}</div>
+                    <a className="text-sm link-accent hover:underline" target="_blank" rel="noreferrer" href={loc.maps}>Open in Google Maps</a>
+                    <div className="mt-2 text-sm text-neutral-600">{loc.scheduleHint}</div>
+                    {loc.notes && <div className="text-sm text-neutral-600">{loc.notes}</div>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Resources */}
+          <section id="resources" className="bg-white">
+            <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
+              <div className="flex flex-wrap items-end justify-between gap-4">
+                <div>
+                  <h3 className="text-2xl font-semibold">Printable Literature</h3>
+                  <p className="text-sm text-neutral-600">Click to open or right‑click to save. Use the Print button above for a page handout.</p>
+                </div>
+                <button onClick={()=>window.print()} className="no-print rounded-xl px-3 py-2 text-sm btn-accent hover:bg-neutral-50">Print page</button>
+              </div>
+
+              <div className="mt-4 grid gap-4 md:grid-cols-2">
+                {resources.map((r) => (
+                  <div key={r.title} className="rounded-2xl border bg-white p-4 print-block">
+                    <div className="flex items-center justify-between"><h4 className="text-base font-semibold">{r.title}</h4><span className="text-xs text-neutral-500">PDF</span></div>
+                    <p className="mt-2 text-sm text-neutral-700">{r.desc}</p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <a className="rounded-xl px-3 py-2 text-sm btn-accent hover:bg-neutral-50" href={r.href}>Download</a>
+                      <a className="rounded-xl px-3 py-2 text-sm btn-accent hover:bg-neutral-50" href={r.href} target="_blank" rel="noreferrer">Open</a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 rounded-2xl border bg-neutral-50 p-4 text-sm text-neutral-700 print-block">
+                <b>Printing tips:</b> Use your browser's Print dialog and enable "Print backgrounds" for best results.
+              </div>
+            </div>
+          </section>
+
+          {/* Footer */}
+          <footer className="border-t bg-white">
+            <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 py-8 text-center md:flex-row">
+              <div className="text-sm text-neutral-500">© {new Date().getFullYear()} Double Winners — Orange County</div>
+              <div className="text-sm text-neutral-500">Questions? Email <a className="link-accent hover:underline" href="mailto:hello@doublewinnersoc.org">hello@doublewinnersoc.org</a></div>
+            </div>
+          </footer>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App/>);
+  </script>
+</body>
+</html>
+
 <html lang="en">
 <head>
   <meta charset="utf-8" />
