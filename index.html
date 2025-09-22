@@ -16,21 +16,41 @@
       --shadow: 0 10px 30px rgba(0,0,0,.35);
     }
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Ubuntu,"Helvetica Neue",Arial,sans-serif;line-height:1.6}
+    html,body{
+      margin:0;padding:0;background:var(--bg);color:var(--text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Ubuntu,"Helvetica Neue",Arial,sans-serif;
+      line-height:1.6
+    }
     a{color:var(--link);text-decoration:none}
     a:hover{color:var(--link-hover);text-decoration:underline}
-    header{position:sticky;top:0;background:rgba(15,17,21,.8);backdrop-filter:saturate(140%) blur(8px);
-      border-bottom:1px solid var(--border);z-index:20}
+
+    /* ===== Header / Nav ===== */
+    header{
+      position:sticky;top:0;background:rgba(15,17,21,.8);
+      backdrop-filter:saturate(140%) blur(8px);
+      border-bottom:1px solid var(--border);z-index:20
+    }
     .wrap{max-width:1100px;margin:auto;padding:24px}
     .brand{display:flex;align-items:center;gap:14px}
     .brand img{height:32px;width:auto;filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
     .brand h1{margin:0;font-size:1.6rem}
-    nav{margin-top:10px}
-    nav a{margin-right:18px;font-weight:600}
 
-    .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
-      box-shadow:var(--shadow);padding:22px}
+    /* Desktop nav */
+    nav{margin-top:10px}
+    nav a{margin-right:18px;font-weight:600;display:inline-block;padding:8px 2px}
+
+    /* Mobile nav toggle */
+    .nav-toggle{
+      display:none;border:0;background:transparent;color:var(--text);
+      font-size:28px;line-height:1;padding:6px 10px;border-radius:8px;cursor:pointer
+    }
+    .nav-toggle:focus{outline:2px solid var(--link);outline-offset:2px}
+
+    /* Cards & common UI */
+    .card{
+      background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+      box-shadow:var(--shadow);padding:22px
+    }
 
     /* Top layout: 2 columns (left column stacks two cards) */
     .top{display:grid;gap:18px;margin:18px 0}
@@ -40,12 +60,16 @@
     h2{margin:.2rem 0 1rem;font-size:1.35rem}
     .muted{color:var(--muted)}
     .btnrow{display:flex;flex-wrap:wrap;gap:10px;margin:.6rem 0 0}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;
-      border:1px solid var(--border);background:#1a2030;color:var(--text);font-weight:600;cursor:pointer}
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;
+      border:1px solid var(--border);background:#1a2030;color:var(--text);font-weight:600;cursor:pointer
+    }
     .btn:hover{background:#20283b}
 
     /* Calendar */
-    iframe.calendar{width:100%;min-height:620px;border:0;border-radius:12px;background:#0a0c12}
+    iframe.calendar{
+      width:100%;min-height:620px;border:0;border-radius:12px;background:#0a0c12
+    }
     .calendar-wrapper{background:#0a0c12;padding:6px;border-radius:12px}
 
     /* Resources grid */
@@ -58,7 +82,10 @@
       padding:12px;text-decoration:none;color:var(--text); cursor:pointer;
     }
     .pdf-card:hover{border-color:#2e3a56}
-    .pdf-card img{width:100%;height:220px;object-fit:contain;object-position:center top;border:1px solid var(--border);border-radius:8px;background:#0b0f16}
+    .pdf-card img{
+      width:100%;height:220px;object-fit:contain;object-position:center top;
+      border:1px solid var(--border);border-radius:8px;background:#0b0f16
+    }
     .pdf-card span{font-weight:600}
 
     /* Contact form */
@@ -93,6 +120,27 @@
       padding:8px 12px; border-radius:10px; cursor:pointer; text-decoration:none; font-weight:600; }
     .pdf-modal__actions a:hover, .pdf-modal__actions button:hover{ background:#20283b }
     .pdf-frame{ width:100%; height:100%; border:0; border-radius:0 0 14px 14px; background:#0b0f16; }
+
+    /* ====== Mobile-only tuning (no desktop changes) ====== */
+    @media (max-width: 560px){
+      .wrap{padding:16px}
+      .brand img{height:28px}
+      .brand h1{font-size:1.25rem}
+      /* show hamburger, collapse nav */
+      .nav-toggle{display:block;margin-left:auto}
+      nav{display:none;margin-top:8px}
+      nav.open{display:block}
+      nav a{
+        display:block;margin:0;padding:12px 0;border-top:1px solid var(--border)
+      }
+      nav a:last-child{border-bottom:1px solid var(--border)}
+      /* thumb-friendly buttons */
+      .btn{width:100%;text-align:center}
+      /* calendar height a bit shorter to avoid initial scroll jump */
+      iframe.calendar{min-height:650px}
+      /* cards: slightly softer radius on phones */
+      .card{border-radius:14px}
+    }
   </style>
 </head>
 <body>
@@ -101,8 +149,10 @@
       <div class="brand">
         <a href="/" aria-label="Home"><img src="images/logo2.png" alt="Double Winners OC logo"></a>
         <h1>OC Double Winners</h1>
+        <!-- Mobile hamburger -->
+        <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">☰</button>
       </div>
-      <nav>
+      <nav id="site-nav" aria-label="Primary">
         <!-- removed Welcome -->
         <a href="#calendar">Meetings</a>
         <a href="#double-winner">What is a Double Winner?</a>
@@ -147,6 +197,7 @@
             id="gcalFrame"
             class="calendar"
             src="https://calendar.google.com/calendar/embed?mode=AGENDA&showTabs=0&showPrint=0&showTitle=0&bgcolor=%230a0c12&src=c_68a6088086a57a5f1a7552c92d86b7d64eda7be32444a1dcbed5f40f393b6042%40group.calendar.google.com&ctz=America%2FLos_Angeles"
+            loading="lazy"
             title="Double Winners OC Calendar">
           </iframe>
         </div>
@@ -208,18 +259,18 @@
       </div>
     </section>
 
-<!-- Links -->
-<section id="links" class="card">
-<h2>Links</h2>
-<ul>
-<li><a href="https://doublewinnersanonymous.com" target="_blank">DoubleWinnersAnonymous.com</a> – A national listing of Double Winners Meetings.</li>
-<li><a href="https://ecomm.al-anon.org/ItemDetail?iProductCode=P45&Category=PAMPHLETS&WebsiteKey=db6e68f1-b2fe-4aaa-baea-928d4e696dcc" target="_blank">The Al-Anon Focus Pamphlet #45</a> — The Al-Anon Focus, the basis of all Double Winners programs.</li>
-<li><a href="https://sc-fc.org" target="_blank">San Clemente Friendship Center</a> – Our sister site and long-serving AA Club in San Clemente, CA.</li>
-<li><a href="https://saddlebackclub.com/" target="_blank">Saddleback Club</a> – Recovery meeting clubhouse in Lake Forest, CA, offering numerous 12-step meetings.</li>
-<li><a href="https://sunsetbeachfellowship.org/" target="_blank">Sunset Beach Fellowship</a> – Community fellowship hall in Sunset Beach, CA, with AA/Al-Anon meetings.</li>
-<li><a href="https://www.canyonclub.org/" target="_blank">Canyon Club</a> – Premier AA/Al-Anon meeting location in Laguna Beach, CA.</li>
-</ul>
-</section>
+    <!-- Links -->
+    <section id="links" class="card">
+      <h2>Links</h2>
+      <ul>
+        <li><a href="https://doublewinnersanonymous.com" target="_blank" rel="noopener">DoubleWinnersAnonymous.com</a> – A national listing of Double Winners Meetings.</li>
+        <li><a href="https://ecomm.al-anon.org/ItemDetail?iProductCode=P45&Category=PAMPHLETS&WebsiteKey=db6e68f1-b2fe-4aaa-baea-928d4e696dcc" target="_blank" rel="noopener">The Al-Anon Focus Pamphlet #45</a> — The Al-Anon Focus, the basis of all Double Winners programs.</li>
+        <li><a href="https://sc-fc.org" target="_blank" rel="noopener">San Clemente Friendship Center</a> – Our sister site and long-serving AA Club in San Clemente, CA.</li>
+        <li><a href="https://saddlebackclub.com/" target="_blank" rel="noopener">Saddleback Club</a> – Recovery meeting clubhouse in Lake Forest, CA, offering numerous 12-step meetings.</li>
+        <li><a href="https://sunsetbeachfellowship.org/" target="_blank" rel="noopener">Sunset Beach Fellowship</a> – Community fellowship hall in Sunset Beach, CA, with AA/Al-Anon meetings.</li>
+        <li><a href="https://www.canyonclub.org/" target="_blank" rel="noopener">Canyon Club</a> – Premier AA/Al-Anon meeting location in Laguna Beach, CA.</li>
+      </ul>
+    </section>
 
     <!-- Contact -->
     <section id="contact" class="card">
@@ -295,67 +346,73 @@
         if (icsBtn)  icsBtn.href  = "https://calendar.google.com/calendar/ical/" + encodeURIComponent(src) + "/public/basic.ics";
       }
 
-     <!-- ===== Contact form (Formspree) ===== -->
-const form = document.getElementById('contactForm');
-if (form){
-  const note = document.getElementById('formNote');
-  const endpoint = (form.dataset.endpoint || '').trim();
-
-  function setNote(msg, ok){
-    if(!note) return;
-    note.textContent = msg;
-    note.classList.remove('success','error');
-    note.classList.add(ok ? 'success' : 'error');
-  }
-
-  form.addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    if (note){ note.textContent = 'Sending...'; note.className = 'dw-note'; }
-
-    // Collect fields
-    const payload = {
-      name: form.name.value.trim(),
-      email: form.email.value.trim(),
-      subject: form.subject.value.trim(),
-      message: form.message.value.trim(),
-      _site: 'ocdoublewinners.com'
-    };
-
-    // Basic client-side guard
-    if (!endpoint){
-      setNote('Form endpoint missing. Please email hello@ocdoublewinners.com.', false);
-      return;
-    }
-
-    try {
-      const r = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      });
-
-      // Try to read Formspree’s JSON (if any)
-      let result = {};
-      try { result = await r.json(); } catch(_) {}
-
-      // Formspree usually returns r.ok=true and sometimes { ok:true }
-      if (!r.ok || result.ok === false) {
-        const errMsg = (result && (result.error || result.message)) || `Request failed (${r.status})`;
-        throw new Error(errMsg);
+      // ===== Mobile hamburger toggle =====
+      const toggle = document.querySelector('.nav-toggle');
+      const nav = document.getElementById('site-nav');
+      if(toggle && nav){
+        toggle.addEventListener('click', ()=>{
+          const open = nav.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', String(open));
+        });
       }
 
-      form.reset();
-      setNote('Thanks! Your message was sent.', true);
-    } catch (err) {
-      console.error('Form submit error:', err);
-      setNote('Sorry, there was a problem sending your message. Please email hello@ocdoublewinners.com.', false);
-    }
-  });
-}
+      // ===== Contact form (Formspree) =====
+      const form = document.getElementById('contactForm');
+      if (form){
+        const note = document.getElementById('formNote');
+        const endpoint = (form.dataset.endpoint || '').trim();
 
+        function setNote(msg, ok){
+          if(!note) return;
+          note.textContent = msg;
+          note.classList.remove('success','error');
+          note.classList.add(ok ? 'success' : 'error');
+        }
+
+        form.addEventListener('submit', async (e)=>{
+          e.preventDefault();
+          if (note){ note.textContent = 'Sending...'; note.className = 'dw-note'; }
+
+          // Collect fields
+          const payload = {
+            name: form.name.value.trim(),
+            email: form.email.value.trim(),
+            subject: form.subject.value.trim(),
+            message: form.message.value.trim(),
+            _site: 'ocdoublewinners.com'
+          };
+
+          if (!endpoint){
+            setNote('Form endpoint missing. Please email hello@ocdoublewinners.com.', false);
+            return;
+          }
+
+          try {
+            const r = await fetch(endpoint, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify(payload)
+            });
+
+            let result = {};
+            try { result = await r.json(); } catch(_) {}
+
+            if (!r.ok || result.ok === false) {
+              const errMsg = (result && (result.error || result.message)) || `Request failed (${r.status})`;
+              throw new Error(errMsg);
+            }
+
+            form.reset();
+            setNote('Thanks! Your message was sent.', true);
+          } catch (err) {
+            console.error('Form submit error:', err);
+            setNote('Sorry, there was a problem sending your message. Please email hello@ocdoublewinners.com.', false);
+          }
+        });
+      }
 
       // ===== PDF Reader Mode =====
       const modal = document.getElementById('pdfModal');
