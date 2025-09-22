@@ -140,6 +140,19 @@
       iframe.calendar{min-height:650px}
       /* cards: slightly softer radius on phones */
       .card{border-radius:14px}
+
+      /* === NEW: Full-bleed calendar on phones === */
+      .calendar-bleed{
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+      }
+      .calendar-bleed iframe{
+        width:100vw !important;
+        min-width:100vw !important;
+        display:block;
+      }
+      /* reduce side padding so the iframe isn’t boxed in */
+      #calendar.card{ padding:14px 0; }
     }
   </style>
 </head>
@@ -192,14 +205,18 @@
           <a id="openCal" class="btn" href="#" target="_blank" rel="noopener">Open in Google Calendar</a>
           <a id="icsLink" class="btn" href="#" target="_blank" rel="noopener">Subscribe (ICS)</a>
         </div>
-        <div class="calendar-wrapper">
-          <iframe
-            id="gcalFrame"
-            class="calendar"
-            src="https://calendar.google.com/calendar/embed?mode=AGENDA&showTabs=0&showPrint=0&showTitle=0&bgcolor=%230a0c12&src=c_68a6088086a57a5f1a7552c92d86b7d64eda7be32444a1dcbed5f40f393b6042%40group.calendar.google.com&ctz=America%2FLos_Angeles"
-            loading="lazy"
-            title="Double Winners OC Calendar">
-          </iframe>
+
+        <!-- NEW: full-bleed wrapper for mobile -->
+        <div class="calendar-bleed">
+          <div class="calendar-wrapper">
+            <iframe
+              id="gcalFrame"
+              class="calendar"
+              src="https://calendar.google.com/calendar/embed?mode=AGENDA&showTabs=0&showPrint=0&showTitle=0&bgcolor=%230a0c12&src=c_68a6088086a57a5f1a7552c92d86b7d64eda7be32444a1dcbed5f40f393b6042%40group.calendar.google.com&ctz=America%2FLos_Angeles"
+              loading="lazy"
+              title="Double Winners OC Calendar">
+            </iframe>
+          </div>
         </div>
       </section>
     </div>
@@ -229,7 +246,7 @@
 
         <a class="pdf-card" href="assets/dos_and_donts_business_card.pdf" data-pdf="assets/dos_and_donts_business_card.pdf">
           <img src="images/thumb-dos-card.png" alt="Dos and Don’ts Business Card thumbnail">
-          <span>Do's and Don’ts Business Card Handouts (PDF)</span>
+          <span>Do's and Don'ts Business Card Handouts (PDF)</span>
         </a>
 
         <a class="pdf-card" href="assets/Detachment.pdf" data-pdf="assets/Detachment.pdf">
