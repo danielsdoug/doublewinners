@@ -39,15 +39,40 @@
       border:1px solid var(--border);background:#1a2030;color:var(--text);font-weight:600;cursor:pointer}
     .btn:hover{background:#20283b}
 
+    /* Calendar */
     iframe.calendar{width:100%;min-height:620px;border:0;border-radius:12px;background:#0a0c12}
     .calendar-wrapper{background:#0a0c12;padding:6px;border-radius:12px}
 
-    .thumb-list{display:grid;gap:12px;margin:18px 0 0;padding:0}
-    .thumb-list li{list-style:none;display:flex;align-items:center;gap:10px}
-    .thumb-list img{width:50px;height:auto;border:1px solid var(--border);border-radius:6px}
+    /* Readings grid */
+    .pdf-grid{display:grid;gap:14px;margin-top:6px}
+    @media(min-width:640px){ .pdf-grid{grid-template-columns:repeat(2,1fr)} }
+    @media(min-width:920px){ .pdf-grid{grid-template-columns:repeat(3,1fr)} }
+    .pdf-card{
+      display:flex;flex-direction:column;gap:8px;
+      background:#121826;border:1px solid var(--border);border-radius:12px;
+      padding:12px;text-decoration:none;color:var(--text)
+    }
+    .pdf-card:hover{border-color:#2e3a56}
+    .pdf-card img{width:100%;height:auto;border:1px solid var(--border);border-radius:8px;background:#0b0f16}
+    .pdf-card span{font-weight:600}
 
+    /* Inline Do/Don’t visuals */
     .cards-row{display:flex;flex-wrap:wrap;gap:20px;margin-top:20px;justify-content:center}
     .cards-row img{max-width:300px;height:auto;border:1px solid var(--border);border-radius:8px}
+
+    /* Contact form */
+    .dw-form{margin-top:14px;display:grid;gap:12px}
+    .dw-row{display:grid;gap:12px}
+    @media(min-width:680px){ .dw-row{grid-template-columns:1fr 1fr} }
+    .dw-form label{display:grid;gap:6px}
+    .dw-form input,.dw-form textarea{
+      background:#1a2030;color:var(--text);border:1px solid var(--border);
+      border-radius:10px;padding:10px 12px;outline:none
+    }
+    .dw-form input:focus,.dw-form textarea:focus{border-color:#3d4a6a}
+    .dw-note{margin-top:6px;color:var(--muted)}
+    .dw-note.success{color:#a9e5b1}
+    .dw-note.error{color:#ffb3b3}
 
     footer{border-top:1px solid var(--border);margin-top:30px}
     small{color:var(--muted)}
@@ -63,7 +88,7 @@
         <a href="#welcome">Welcome</a>
         <a href="#calendar">Calendar</a>
         <a href="#double-winner">What is a Double Winner?</a>
-        <a href="#handouts">Handouts</a>
+        <a href="#readings">Readings</a>
         <a href="#contact">Contact</a>
       </nav>
     </div>
@@ -109,18 +134,47 @@
       </section>
     </div>
 
-    <!-- Handouts -->
-    <section id="handouts" class="card">
-      <h2>Group Handouts</h2>
-      <ul class="thumb-list">
-        <li><img src="images/thumb-leader.png" alt="Leader Format thumbnail"><a href="assets/Double-Winners-Leader-Format.pdf" target="_blank" rel="noopener">Double-Winners Leader Format (PDF)</a></li>
-        <li><img src="images/thumb-secretary.png" alt="Secretary Format thumbnail"><a href="assets/dw-secretary-format.pdf" target="_blank" rel="noopener">DW Secretary Format (PDF)</a></li>
-        <li><img src="images/thumb-dos.png" alt="Dos and Don’ts thumbnail"><a href="assets/dos-and-donts.pdf" target="_blank" rel="noopener">Dos and Don’ts (PDF)</a></li>
-        <li><img src="images/thumb-dos-card.png" alt="Dos and Don’ts Card thumbnail"><a href="assets/dos_and_donts_business_card.pdf" target="_blank" rel="noopener">Dos and Don’ts Business Card (PDF)</a></li>
-        <li><img src="images/thumb-detachment.png" alt="Detachment thumbnail"><a href="assets/Detachment.pdf" target="_blank" rel="noopener">Detachment (PDF)</a></li>
-        <li><img src="images/thumb-lettinggo.png" alt="Letting Go thumbnail"><a href="assets/letting-go.pdf" target="_blank" rel="noopener">Letting Go (PDF)</a></li>
-        <li><img src="images/thumb-prayer.png" alt="Opening Prayer thumbnail"><a href="assets/opening-prayer.pdf" target="_blank" rel="noopener">Opening Prayer (PDF)</a></li>
-      </ul>
+    <!-- Readings (formerly Handouts) -->
+    <section id="readings" class="card">
+      <h2>Readings</h2>
+
+      <!-- PDF cards grid -->
+      <div class="pdf-grid">
+        <a class="pdf-card" href="assets/Double-Winners-Leader-Format.pdf" target="_blank" rel="noopener">
+          <img src="images/thumb-leader.png" alt="Double-Winners Leader Format thumbnail">
+          <span>Double-Winners Leader Format (PDF)</span>
+        </a>
+
+        <a class="pdf-card" href="assets/dw-secretary-format.pdf" target="_blank" rel="noopener">
+          <img src="images/thumb-secretary.png" alt="DW Secretary Format thumbnail">
+          <span>DW Secretary Format (PDF)</span>
+        </a>
+
+        <a class="pdf-card" href="assets/dos-and-donts.pdf" target="_blank" rel="noopener">
+          <img src="images/thumb-dos.png" alt="Dos and Don’ts thumbnail">
+          <span>Dos and Don’ts (PDF)</span>
+        </a>
+
+        <a class="pdf-card" href="assets/dos_and_donts_business_card.pdf" target="_blank" rel="noopener">
+          <img src="images/thumb-dos-card.png" alt="Dos and Don’ts Business Card thumbnail">
+          <span>Dos and Don’ts Business Card (PDF)</span>
+        </a>
+
+        <a class="pdf-card" href="assets/Detachment.pdf" target="_blank" rel="noopener">
+          <img src="images/thumb-detachment.png" alt="Detachment thumbnail">
+          <span>Detachment (PDF)</span>
+        </a>
+
+        <a class="pdf-card" href="assets/letting-go.pdf" target="_blank" rel="noopener">
+          <img src="images/thumb-lettinggo.png" alt="Letting Go thumbnail">
+          <span>Letting Go (PDF)</span>
+        </a>
+
+        <a class="pdf-card" href="assets/opening-prayer.pdf" target="_blank" rel="noopener">
+          <img src="images/thumb-prayer.png" alt="Opening Prayer thumbnail">
+          <span>Opening Prayer (PDF)</span>
+        </a>
+      </div>
 
       <!-- Static visuals: Do / Don’t -->
       <div class="cards-row">
@@ -139,6 +193,34 @@
     <section id="contact" class="card">
       <h2>Contact</h2>
       <p>Questions? Email us at <a href="mailto:hello@doublewinnersoc.org">hello@doublewinnersoc.org</a>.</p>
+
+      <!-- Contact Form -->
+      <form id="contactForm" class="dw-form" data-endpoint="">
+        <!-- Put your forms endpoint in data-endpoint="" (Formspree / Submit-Form / Netlify, etc) -->
+        <div class="dw-row">
+          <label>
+            <span>Name</span>
+            <input type="text" name="name" autocomplete="name" required />
+          </label>
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" autocomplete="email" required />
+          </label>
+        </div>
+
+        <label>
+          <span>Subject</span>
+          <input type="text" name="subject" required />
+        </label>
+
+        <label>
+          <span>Message</span>
+          <textarea name="message" rows="5" required></textarea>
+        </label>
+
+        <button type="submit" class="btn">Send</button>
+        <div id="formNote" class="dw-note" aria-live="polite"></div>
+      </form>
     </section>
   </main>
 
@@ -150,6 +232,7 @@
     (function(){
       const y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear();
 
+      // Build “Open in Google Calendar” + ICS links from iframe src
       const frame = document.getElementById('gcalFrame');
       const openBtn = document.getElementById('openCal');
       const icsBtn  = document.getElementById('icsLink');
@@ -159,6 +242,54 @@
         if (openBtn) openBtn.href = "https://calendar.google.com/calendar/u/0/r?cid=" + encodeURIComponent(src);
         if (icsBtn)  icsBtn.href  = "https://calendar.google.com/calendar/ical/" + encodeURIComponent(src) + "/public/basic.ics";
       }
+
+      // Contact form handler
+      const form = document.getElementById('contactForm');
+      if (!form) return;
+      const note = document.getElementById('formNote');
+      const endpoint = form.dataset.endpoint?.trim();
+
+      function setNote(msg, ok){
+        note.textContent = msg;
+        note.classList.remove('success','error');
+        note.classList.add(ok ? 'success' : 'error');
+      }
+
+      form.addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        note.textContent = 'Sending...';
+        note.className = 'dw-note';
+
+        const data = {
+          name: form.name.value.trim(),
+          email: form.email.value.trim(),
+          subject: form.subject.value.trim(),
+          message: form.message.value.trim(),
+          _site: 'doublewinnersoc.org'
+        };
+
+        if (endpoint) {
+          try {
+            const r = await fetch(endpoint, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify(data)
+            });
+            if (!r.ok) throw new Error('Network response not ok');
+            form.reset();
+            setNote('Thanks — your message has been sent.', true);
+          } catch (err) {
+            setNote('Sorry — something went wrong. Please try again or email hello@doublewinnersoc.org directly.', false);
+          }
+          return;
+        }
+
+        // Fallback to mailto
+        const subject = encodeURIComponent(`[DWOC] ${data.subject}`);
+        const body = encodeURIComponent(`Name: ${data.name}\nEmail: ${data.email}\n\n${data.message}`);
+        window.location.href = `mailto:hello@doublewinnersoc.org?subject=${subject}&body=${body}`;
+        setNote('Opening your email app… If nothing happens, email hello@doublewinnersoc.org.', true);
+      });
     })();
   </script>
 </body>
