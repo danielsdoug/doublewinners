@@ -5,64 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Double Winners of Orange County</title>
 
-  <!-- Dark Theme Styles -->
   <style>
     :root{
       --bg:#0f1115; --panel:#141824; --text:#e7ebf3; --muted:#9aa4b2;
-      --link:#7aa2ff; --link-hover:#a9c1ff; --accent:#2b61ff; --border:#222836;
-      --shadow: 0 10px 30px rgba(0,0,0,.35); --radius:16px;
+      --link:#7aa2ff; --link-hover:#a9c1ff; --border:#222836; --radius:16px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
     }
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Ubuntu,"Helvetica Neue",Arial,sans-serif;line-height:1.6}
     a{color:var(--link);text-decoration:none}
     a:hover{color:var(--link-hover);text-decoration:underline}
-    header{position:sticky;top:0;background:rgba(15,17,21,.8);
-      backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--border);z-index:20}
-    .wrap{max-width:980px;margin:auto;padding:24px}
+    header{position:sticky;top:0;background:rgba(15,17,21,.8);backdrop-filter:saturate(140%) blur(8px);
+      border-bottom:1px solid var(--border);z-index:20}
+    .wrap{max-width:1100px;margin:auto;padding:24px}
     .brand{display:flex;align-items:center;gap:14px}
-    .brand h1{margin:0;font-size:1.6rem;letter-spacing:.3px}
+    .brand h1{margin:0;font-size:1.6rem}
     nav{margin-top:10px}
     nav a{margin-right:18px;font-weight:600}
-    main .card{background:var(--panel);border:1px solid var(--border);
-      border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin:18px 0}
+
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+      box-shadow:var(--shadow);padding:22px}
+
+    /* === Top two-column row === */
+    .row{display:grid;gap:18px;margin:18px 0}
+    @media(min-width:960px){ .row.two{grid-template-columns:1fr 420px} }  /* left content, right narrow calendar card */
+
     h2{margin:.2rem 0 1rem;font-size:1.35rem}
-    ul.clean{margin:0;padding-left:18px}
-    .grid{display:grid;gap:18px}
-    @media(min-width:900px){ .grid{grid-template-columns:1.1fr .9fr} }
+    .muted{color:var(--muted)}
     .btnrow{display:flex;flex-wrap:wrap;gap:10px;margin:.6rem 0 0}
     .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;
       border:1px solid var(--border);background:#1a2030;color:var(--text);font-weight:600;cursor:pointer}
     .btn:hover{background:#20283b}
-    .muted{color:var(--muted)}
-    footer{border-top:1px solid var(--border);margin-top:30px}
-    small{color:var(--muted)}
-    iframe.calendar{width:100%;min-height:600px;border:0;border-radius:12px;background:#0c0f16}
-    .notice{background:#0b1222;border:1px dashed #253152;border-radius:12px;padding:12px;color:#c9d6ff}
-    .list-tight li{margin:.25rem 0}
-    .thumb-list{display:grid;gap:12px}
+
+    iframe.calendar{width:100%;min-height:520px;border:0;border-radius:12px;background:#0c0f16}
+    .thumb-list{display:grid;gap:12px;margin:18px 0 0;padding:0}
     .thumb-list li{list-style:none;display:flex;align-items:center;gap:10px}
     .thumb-list img{width:50px;height:auto;border:1px solid var(--border);border-radius:6px}
 
-    /* Inline Do/Don't images */
     .cards-row{display:flex;flex-wrap:wrap;gap:20px;margin-top:20px;justify-content:center}
-    .cards-row figure{text-align:center;margin:0}
-    .cards-row img{max-width:300px;height:auto;border:1px solid var(--border);border-radius:8px;cursor:zoom-in}
+    .cards-row img{max-width:300px;height:auto;border:1px solid var(--border);border-radius:8px}
 
-    /* Lightbox */
-    .lightbox{
-      position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.8);
-      z-index:1000;padding:24px
-    }
-    .lightbox.open{display:grid}
-    .lightbox__img{
-      max-width:min(92vw,1100px);max-height:90vh;border-radius:10px;border:1px solid #222
-    }
-    .lightbox__close{
-      position:absolute;top:14px;right:18px;font-size:28px;line-height:1;color:#fff;
-      background:transparent;border:none;cursor:pointer;padding:6px 10px
-    }
-    .lightbox__caption{margin-top:8px;color:#cfd6e6;text-align:center}
+    footer{border-top:1px solid var(--border);margin-top:30px}
+    small{color:var(--muted)}
   </style>
 </head>
 <body>
@@ -72,8 +57,9 @@
         <h1>Double Winners of OC</h1>
       </div>
       <nav>
-        <a href="#about">About</a>
-        <a href="#meetings">Meetings</a>
+        <a href="#welcome">Welcome</a>
+        <a href="#calendar">Calendar</a>
+        <a href="#double-winner">What is a Double Winner?</a>
         <a href="#handouts">Handouts</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -82,60 +68,43 @@
 
   <main class="wrap">
 
-    <!-- Welcome -->
-    <section id="about" class="card">
-      <h2>Welcome to OC Double Winners!</h2>
-      <p>
-        OC Double Winners provides information on Double Winners meetings in Orange County, Calif.
-        Here you’ll find meeting schedules, literature and downloadable group handouts to start your own Double Winners meeting.
-      </p>
-    </section>
+    <!-- Top row: Welcome (left) + Calendar (right) -->
+    <div class="row two">
+      <section id="welcome" class="card">
+        <h2>Welcome to OC Double Winners!</h2>
+        <p>
+          OC Double Winners provides information on Double Winners meetings in Orange County, Calif.
+          Here you’ll find meeting schedules, literature and downloadable group handouts to start your own Double Winners meeting.
+        </p>
+        <ul class="muted" style="margin-top:.5rem">
+          <li>In-person and online formats</li>
+          <li>Service opportunities available (Secretary, Leader)</li>
+          <li>Please arrive a few minutes early if you’re able</li>
+        </ul>
+      </section>
+
+      <section id="calendar" class="card">
+        <h2 style="margin-bottom:.5rem">Upcoming Club Events</h2>
+        <div class="btnrow">
+          <a id="openCal" class="btn" href="#" target="_blank" rel="noopener">Open in Google Calendar</a>
+          <a id="icsLink" class="btn" href="#" target="_blank" rel="noopener">Subscribe (ICS)</a>
+        </div>
+        <!-- Agenda mode embed -->
+        <iframe
+          id="gcalFrame"
+          class="calendar"
+          src="https://calendar.google.com/calendar/embed?mode=AGENDA&showTabs=0&showPrint=0&showTitle=0&src=c_68a6088086a57a5f1a7552c92d86b7d64eda7be32444a1dcbed5f40f393b6042%40group.calendar.google.com&ctz=America%2FLos_Angeles"
+          title="Double Winners OC Calendar">
+        </iframe>
+      </section>
+    </div>
 
     <!-- What is a Double Winner -->
-    <section class="card">
+    <section id="double-winner" class="card">
       <h2>What is a Double Winner?</h2>
       <p>
         We call ourselves DOUBLE WINNERS because, firstly, we are WINNERS in that we follow the 12 steps of AA which teaches us how to live and deal with ourselves. Secondly, we are also WINNERS because we follow the 12 steps of Al-Anon which teaches us how to live and deal with everyone else in our lives. The two together makes us DOUBLE WINNERS, and through the two programs, we learn how to live internally and externally on the journey to greater serenity. Accordingly, we learn how to apply good principles and concepts in all our relationships, including with ourselves.
       </p>
-    </section>
-
-    <!-- Meetings + Calendar -->
-    <section id="meetings" class="card">
-      <div class="grid">
-        <div>
-          <h2>Double Winner Meetings in Orange County, California</h2>
-          <p class="muted">
-            Check the live calendar for the latest schedule. Use the buttons to open the calendar
-            in Google Calendar or subscribe via ICS in your preferred app (Apple Calendar, Outlook, etc.).
-          </p>
-
-          <div class="btnrow">
-            <a id="openCal" class="btn" href="#" target="_blank" rel="noopener">Open in Google Calendar</a>
-            <a id="icsLink" class="btn" href="#" target="_blank" rel="noopener">Subscribe (ICS)</a>
-          </div>
-
-          <div class="notice" style="margin-top:12px">
-            If the calendar doesn’t load, it may be a privacy or network setting. You can still use the buttons above.
-          </div>
-
-          <ul class="clean list-tight" style="margin-top:10px">
-            <li>In-person and online formats.</li>
-            <li>XYZ</li>
-            <li>123.</li>
-          </ul>
-        </div>
-
-        <div>
-          <!-- Calendar Embed (user-provided) -->
-          <iframe
-            id="gcalFrame"
-            class="calendar"
-            src="https://calendar.google.com/calendar/embed?src=c_68a6088086a57a5f1a7552c92d86b7d64eda7be32444a1dcbed5f40f393b6042%40group.calendar.google.com&ctz=America%2FLos_Angeles"
-            frameborder="0" scrolling="no"
-            title="Double Winners OC Calendar">
-          </iframe>
-        </div>
-      </div>
     </section>
 
     <!-- Handouts -->
@@ -151,15 +120,15 @@
         <li><img src="images/thumb-prayer.png" alt="Opening Prayer thumbnail"><a href="assets/opening-prayer.pdf" target="_blank" rel="noopener">Opening Prayer (PDF)</a></li>
       </ul>
 
-      <!-- Static visuals for Do / Don't (lightbox-enabled) -->
+      <!-- Static visuals: Do / Don’t -->
       <div class="cards-row">
         <figure>
-          <img src="images/do.PNG" alt="Do’s" data-lightbox-caption="Do’s" class="lb">
-          <figcaption class="muted">Do’s</figcaption>
+          <img src="images/do.PNG" alt="Do’s">
+          <figcaption class="muted" style="text-align:center">Do’s</figcaption>
         </figure>
         <figure>
-          <img src="images/dont.PNG" alt="Don’ts" data-lightbox-caption="Don’ts" class="lb">
-          <figcaption class="muted">Don’ts</figcaption>
+          <img src="images/dont.PNG" alt="Don’ts">
+          <figcaption class="muted" style="text-align:center">Don’ts</figcaption>
         </figure>
       </div>
     </section>
@@ -167,10 +136,7 @@
     <!-- Contact -->
     <section id="contact" class="card">
       <h2>Contact</h2>
-      <p>
-        Questions? Email us at
-        <a href="mailto:hello@doublewinnersoc.org">hello@doublewinnersoc.org</a>.
-      </p>
+      <p>Questions? Email us at <a href="mailto:hello@doublewinnersoc.org">hello@doublewinnersoc.org</a>.</p>
     </section>
   </main>
 
@@ -178,64 +144,20 @@
     <small>© <span id="year"></span> Double Winners Orange County, Calif.</small>
   </footer>
 
-  <!-- Lightbox markup -->
-  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Image preview">
-    <button class="lightbox__close" id="lbClose" aria-label="Close preview">×</button>
-    <img class="lightbox__img" id="lbImg" alt="">
-    <div class="lightbox__caption" id="lbCap"></div>
-  </div>
-
   <script>
     (function(){
-      const yearEl = document.getElementById('year');
-      if (yearEl) yearEl.textContent = new Date().getFullYear();
+      const y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear();
 
+      // Build “Open in Google Calendar” and ICS links from iframe src
       const frame = document.getElementById('gcalFrame');
       const openBtn = document.getElementById('openCal');
       const icsBtn  = document.getElementById('icsLink');
-
-      function getParam(u, key){ try{ return new URL(u).searchParams.get(key) || ""; }catch(e){ return ""; } }
-      function buildLinks(){
-        if(!frame) return;
-        const src = getParam(frame.src, 'src');
-        if(!src) return;
-        const web = "https://calendar.google.com/calendar/u/0/r?cid=" + encodeURIComponent(src);
-        if (openBtn) openBtn.href = web;
-        const ics = "https://calendar.google.com/calendar/ical/" + encodeURIComponent(src) + "/public/basic.ics";
-        if (icsBtn) icsBtn.href = ics;
+      function param(u, k){ try{ return new URL(u).searchParams.get(k) || ""; }catch(e){ return ""; } }
+      const src = param(frame.src,'src');
+      if (src){
+        if (openBtn) openBtn.href = "https://calendar.google.com/calendar/u/0/r?cid=" + encodeURIComponent(src);
+        if (icsBtn)  icsBtn.href  = "https://calendar.google.com/calendar/ical/" + encodeURIComponent(src) + "/public/basic.ics";
       }
-      buildLinks();
-
-      // Lightweight Lightbox
-      const lb = document.getElementById('lightbox');
-      const lbImg = document.getElementById('lbImg');
-      const lbCap = document.getElementById('lbCap');
-      const lbClose = document.getElementById('lbClose');
-
-      function openLB(src, caption){
-        lbImg.src = src;
-        lbImg.alt = caption || "Preview";
-        lbCap.textContent = caption || "";
-        lb.classList.add('open');
-        lb.setAttribute('aria-hidden', 'false');
-      }
-      function closeLB(){
-        lb.classList.remove('open');
-        lb.setAttribute('aria-hidden', 'true');
-        lbImg.src = "";
-      }
-
-      document.addEventListener('click', (e) => {
-        const t = e.target;
-        if (t.classList && t.classList.contains('lb')) {
-          openLB(t.src, t.getAttribute('data-lightbox-caption') || t.alt || "");
-        } else if (t === lb || t === lbClose) {
-          closeLB();
-        }
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && lb.classList.contains('open')) closeLB();
-      });
     })();
   </script>
 </body>
