@@ -103,10 +103,11 @@
         <h1>OC Double Winners</h1>
       </div>
       <nav>
-        <a href="#welcome">Welcome</a>
+        <!-- removed Welcome -->
         <a href="#calendar">Meetings</a>
         <a href="#double-winner">What is a Double Winner?</a>
         <a href="#resources">Resources</a>
+        <a href="#links">Links</a>
         <a href="#contact">Contact</a>
       </nav>
     </div>
@@ -195,7 +196,6 @@
           <span>Opening Prayer Reading (PDF)</span>
         </a>
 
-        <!-- NEW: Closing Prayer (Optional) -->
         <a class="pdf-card" href="assets/DW-Closing-Reading.pdf" data-pdf="assets/DW-Closing-Reading.pdf">
           <img src="images/thumb-closing.png" alt="Closing Prayer (Optional) thumbnail">
           <span>Closing Prayer (Optional) (PDF)</span>
@@ -206,13 +206,24 @@
           <span>Double Winners Meeting Topics (PDF)</span>
         </a>
       </div>
+    </section>
 
-      <!-- NEW: Links section -->
-      <h3 style="margin-top:20px">Links</h3>
+    <!-- NEW: Links -->
+    <section id="links" class="card">
+      <h2>Links</h2>
       <ul>
-        <li><a href="https://doublewinnersanonymous.com" target="_blank" rel="noopener">DoubleWinnersAnonymous.com</a> - A resource for Double Winners based in Florida.</li>
-        <li><a href="https://ecomm.al-anon.org/ItemDetail?iProductCode=P45&Category=PAMPHLETS&WebsiteKey=db6e68f1-b2fe-4aaa-baea-928d4e696dcc" target="_blank" rel="noopener">The Al-Anon Focus Pamphlet #45</a> — The Al-Anon Focus, the basis of all Double Winners programs.</li>
-        <li><a href="https://sc-fc.org" target="_blank" rel="noopener">San Clemente Friendship Center</a> - Our sistser site and long serving Alano Club in San Clemente, CA</li>
+        <li>
+          <a href="https://saddlebackclub.com/" target="_blank" rel="noopener">Saddleback Club (Lake Forest)</a> —
+          A local Alano club hosting daily AA/12-step meetings and fellowship in South Orange County.
+        </li>
+        <li>
+          <a href="https://sunsetbeachfellowship.org/" target="_blank" rel="noopener">Sunset Beach Fellowship</a> —
+          A coastal AA fellowship with a full schedule of meetings and community events in Sunset Beach.
+        </li>
+        <li>
+          <a href="https://www.canyonclub.org/" target="_blank" rel="noopener">The Canyon Club (Laguna Beach)</a> —
+          Long-running Alano club offering meetings and resources for recovery in Laguna Beach.
+        </li>
       </ul>
     </section>
 
@@ -339,7 +350,7 @@
       const pdfPrint = document.getElementById('pdfPrint');
 
       function openReader(href, title){
-        if (!modal || !pdfFrame) return;
+        if (!modal or !pdfFrame) return;
         modal.classList.add('open');
         modal.setAttribute('aria-hidden','false');
         const viewUrl = href + '#view=FitH';
