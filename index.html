@@ -8,38 +8,31 @@
   <!-- Dark Theme Styles -->
   <style>
     :root{
-      --bg:#0f1115;
-      --panel:#141824;
-      --text:#e7ebf3;
-      --muted:#9aa4b2;
-      --link:#7aa2ff;
-      --link-hover:#a9c1ff;
-      --accent:#2b61ff;
-      --border:#222836;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius:16px;
+      --bg:#0f1115; --panel:#141824; --text:#e7ebf3; --muted:#9aa4b2;
+      --link:#7aa2ff; --link-hover:#a9c1ff; --accent:#2b61ff; --border:#222836;
+      --shadow: 0 10px 30px rgba(0,0,0,.35); --radius:16px;
     }
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Ubuntu,"Helvetica Neue",Arial,sans-serif;line-height:1.6}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Ubuntu,"Helvetica Neue",Arial,sans-serif;line-height:1.6}
     a{color:var(--link);text-decoration:none}
     a:hover{color:var(--link-hover);text-decoration:underline}
-    header{position:sticky;top:0;background:rgba(15,17,21,.8);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--border);z-index:20}
+    header{position:sticky;top:0;background:rgba(15,17,21,.8);
+      backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--border);z-index:20}
     .wrap{max-width:980px;margin:auto;padding:24px}
     .brand{display:flex;align-items:center;gap:14px}
     .brand h1{margin:0;font-size:1.6rem;letter-spacing:.3px}
     nav{margin-top:10px}
     nav a{margin-right:18px;font-weight:600}
-    main .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin:18px 0}
+    main .card{background:var(--panel);border:1px solid var(--border);
+      border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin:18px 0}
     h2{margin:.2rem 0 1rem;font-size:1.35rem}
     ul.clean{margin:0;padding-left:18px}
     .grid{display:grid;gap:18px}
     @media(min-width:900px){ .grid{grid-template-columns:1.1fr .9fr} }
     .btnrow{display:flex;flex-wrap:wrap;gap:10px;margin:.6rem 0 0}
-    .btn{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:10px 14px;border-radius:12px;border:1px solid var(--border);
-      background:#1a2030;color:var(--text);font-weight:600;cursor:pointer
-    }
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;
+      border:1px solid var(--border);background:#1a2030;color:var(--text);font-weight:600;cursor:pointer}
     .btn:hover{background:#20283b}
     .muted{color:var(--muted)}
     footer{border-top:1px solid var(--border);margin-top:30px}
@@ -50,6 +43,26 @@
     .thumb-list{display:grid;gap:12px}
     .thumb-list li{list-style:none;display:flex;align-items:center;gap:10px}
     .thumb-list img{width:50px;height:auto;border:1px solid var(--border);border-radius:6px}
+
+    /* Inline Do/Don't images */
+    .cards-row{display:flex;flex-wrap:wrap;gap:20px;margin-top:20px;justify-content:center}
+    .cards-row figure{text-align:center;margin:0}
+    .cards-row img{max-width:300px;height:auto;border:1px solid var(--border);border-radius:8px;cursor:zoom-in}
+
+    /* Lightbox */
+    .lightbox{
+      position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.8);
+      z-index:1000;padding:24px
+    }
+    .lightbox.open{display:grid}
+    .lightbox__img{
+      max-width:min(92vw,1100px);max-height:90vh;border-radius:10px;border:1px solid #222
+    }
+    .lightbox__close{
+      position:absolute;top:14px;right:18px;font-size:28px;line-height:1;color:#fff;
+      background:transparent;border:none;cursor:pointer;padding:6px 10px
+    }
+    .lightbox__caption{margin-top:8px;color:#cfd6e6;text-align:center}
   </style>
 </head>
 <body>
@@ -138,14 +151,14 @@
         <li><img src="images/thumb-prayer.png" alt="Opening Prayer thumbnail"><a href="assets/opening-prayer.pdf" target="_blank" rel="noopener">Opening Prayer (PDF)</a></li>
       </ul>
 
-      <!-- Static visuals for Do / Don't -->
-      <div style="display:flex;flex-wrap:wrap;gap:20px;margin-top:20px;justify-content:center">
-        <figure style="text-align:center">
-          <img src="images/do.PNG" alt="Do’s" style="max-width:300px;border:1px solid var(--border);border-radius:8px">
+      <!-- Static visuals for Do / Don't (lightbox-enabled) -->
+      <div class="cards-row">
+        <figure>
+          <img src="images/do.PNG" alt="Do’s" data-lightbox-caption="Do’s" class="lb">
           <figcaption class="muted">Do’s</figcaption>
         </figure>
-        <figure style="text-align:center">
-          <img src="images/dont.PNG" alt="Don’ts" style="max-width:300px;border:1px solid var(--border);border-radius:8px">
+        <figure>
+          <img src="images/dont.PNG" alt="Don’ts" data-lightbox-caption="Don’ts" class="lb">
           <figcaption class="muted">Don’ts</figcaption>
         </figure>
       </div>
@@ -165,6 +178,13 @@
     <small>© <span id="year"></span> Double Winners Orange County, Calif.</small>
   </footer>
 
+  <!-- Lightbox markup -->
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Image preview">
+    <button class="lightbox__close" id="lbClose" aria-label="Close preview">×</button>
+    <img class="lightbox__img" id="lbImg" alt="">
+    <div class="lightbox__caption" id="lbCap"></div>
+  </div>
+
   <script>
     (function(){
       const yearEl = document.getElementById('year');
@@ -174,19 +194,48 @@
       const openBtn = document.getElementById('openCal');
       const icsBtn  = document.getElementById('icsLink');
 
-      function getParam(u, key){
-        try{ return new URL(u).searchParams.get(key) || ""; }catch(e){ return ""; }
-      }
+      function getParam(u, key){ try{ return new URL(u).searchParams.get(key) || ""; }catch(e){ return ""; } }
       function buildLinks(){
+        if(!frame) return;
         const src = getParam(frame.src, 'src');
-        if(!src){ return; }
+        if(!src) return;
         const web = "https://calendar.google.com/calendar/u/0/r?cid=" + encodeURIComponent(src);
-        openBtn.href = web;
-        const ics = "https://calendar.google.com/calendar/ical/" +
-                    encodeURIComponent(src) + "/public/basic.ics";
-        icsBtn.href = ics;
+        if (openBtn) openBtn.href = web;
+        const ics = "https://calendar.google.com/calendar/ical/" + encodeURIComponent(src) + "/public/basic.ics";
+        if (icsBtn) icsBtn.href = ics;
       }
       buildLinks();
+
+      // Lightweight Lightbox
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lbImg');
+      const lbCap = document.getElementById('lbCap');
+      const lbClose = document.getElementById('lbClose');
+
+      function openLB(src, caption){
+        lbImg.src = src;
+        lbImg.alt = caption || "Preview";
+        lbCap.textContent = caption || "";
+        lb.classList.add('open');
+        lb.setAttribute('aria-hidden', 'false');
+      }
+      function closeLB(){
+        lb.classList.remove('open');
+        lb.setAttribute('aria-hidden', 'true');
+        lbImg.src = "";
+      }
+
+      document.addEventListener('click', (e) => {
+        const t = e.target;
+        if (t.classList && t.classList.contains('lb')) {
+          openLB(t.src, t.getAttribute('data-lightbox-caption') || t.alt || "");
+        } else if (t === lb || t === lbClose) {
+          closeLB();
+        }
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lb.classList.contains('open')) closeLB();
+      });
     })();
   </script>
 </body>
