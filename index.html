@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Orange County Double Winners</title>
 
+  <!-- Favicon & Logo -->
+  <link rel="icon" href="images/favicon2.ico" sizes="any">
+  <link rel="apple-touch-icon" href="images/logo2.png">
+
   <style>
     :root{
       --bg:#0f1115; --panel:#141824; --text:#e7ebf3; --muted:#9aa4b2;
@@ -20,6 +24,7 @@
       border-bottom:1px solid var(--border);z-index:20}
     .wrap{max-width:1100px;margin:auto;padding:24px}
     .brand{display:flex;align-items:center;gap:14px}
+    .brand img{height:32px;width:auto;filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
     .brand h1{margin:0;font-size:1.6rem}
     nav{margin-top:10px}
     nav a{margin-right:18px;font-weight:600}
@@ -108,11 +113,12 @@
   <header>
     <div class="wrap">
       <div class="brand">
+        <img src="images/logo2.png" alt="Double Winners OC logo">
         <h1>Double Winners of OC</h1>
       </div>
       <nav>
         <a href="#welcome">Welcome</a>
-        <a href="#meetings">Meetings</a>
+        <a href="#calendar">Calendar</a>
         <a href="#double-winner">What is a Double Winner?</a>
         <a href="#readings">Readings</a>
         <a href="#contact">Contact</a>
@@ -130,7 +136,7 @@
           <p>
             OC Double Winners provides information on Double Winners meetings in Orange County, Calif.
             Here you’ll find meeting schedules, literature and downloadable group handouts to start your own Double Winners meeting.
-           <br><br> Traditionally, Double Winners meetings are not recognized by either Al-Anon nor AA, and consequently are oftentimes not listed in local meeting directories.
+            <br><br> Traditionally, Double Winners meetings are not recognized by either Al-Anon nor AA, and consequently are oftentimes not listed in local meeting directories.
             This site aims to help bridge that gap and provide a resource for those seeking Double Winners meetings in Orange County.
           </p>
         </section>
@@ -143,7 +149,7 @@
         </section>
       </div>
 
-      <section id="meetings" class="card">
+      <section id="calendar" class="card">
         <h2 style="margin-bottom:.5rem">Double Winner Meetings in OC</h2>
         <div class="btnrow">
           <a id="openCal" class="btn" href="#" target="_blank" rel="noopener">Open in Google Calendar</a>
@@ -154,7 +160,7 @@
             id="gcalFrame"
             class="calendar"
             src="https://calendar.google.com/calendar/embed?mode=AGENDA&showTabs=0&showPrint=0&showTitle=0&bgcolor=%230a0c12&src=c_68a6088086a57a5f1a7552c92d86b7d64eda7be32444a1dcbed5f40f393b6042%40group.calendar.google.com&ctz=America%2FLos_Angeles"
-            title="Upcoming Double Winners Meetings">
+            title="Double Winners OC Calendar">
           </iframe>
         </div>
       </section>
@@ -200,7 +206,6 @@
           <span>Opening Prayer (PDF)</span>
         </a>
 
-        <!-- Meeting Topics 2025 -->
         <a class="pdf-card" href="assets/Double-Winners-Meeting-Topics-2025.pdf" data-pdf="assets/Double-Winners-Meeting-Topics-2025.pdf">
           <img src="images/thumb-topics-2025.png" alt="Double Winners Meeting Topics 2025 thumbnail">
           <span>Double Winners Meeting Topics – 2025 (PDF)</span>
@@ -225,7 +230,7 @@
       <h2>Contact</h2>
       <p>Questions? Email us at <a href="mailto:hello@doublewinnersoc.org">hello@doublewinnersoc.org</a>.</p>
 
-      <!-- Contact Form (wired to your endpoint) -->
+      <!-- Contact Form -->
       <form id="contactForm" class="dw-form" data-endpoint="https://formspree.io/f/xwprebja">
         <div class="dw-row">
           <label>
@@ -254,17 +259,16 @@
     </section>
   </main>
 
-<footer class="wrap">
-  <small>
-    © <span id="year"></span> Double Winners Orange County, Calif.<br>
-    A public service site from the 
-    <a href="https://sc-fc.org" target="_blank" rel="noopener">San Clemente Friendship Center</a>.<br>
-    Contact us directly at <a href="mailto:hello@doublewinnersoc.org">hello@doublewinnersoc.org</a>
-  </small>
-</footer>
+  <footer class="wrap">
+    <small>
+      © <span id="year"></span> Double Winners Orange County, Calif.<br>
+      A public service site from the 
+      <a href="https://sc-fc.org" target="_blank" rel="noopener">San Clemente Friendship Center</a>.<br>
+      Contact us directly at <a href="mailto:hello@doublewinnersoc.org">hello@doublewinnersoc.org</a>
+    </small>
+  </footer>
 
-
-  <!-- ===== PDF Reader Overlay (modal) ===== -->
+  <!-- ===== PDF Reader Overlay ===== -->
   <div class="pdf-modal" id="pdfModal" aria-hidden="true" role="dialog" aria-label="Reader">
     <div class="pdf-modal__panel">
       <div class="pdf-modal__bar">
@@ -282,7 +286,7 @@
     (function(){
       const y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear();
 
-      // Build “Open in Google Calendar” + ICS links from iframe src
+      // Build “Open in Google Calendar” + ICS links
       const frame = document.getElementById('gcalFrame');
       const openBtn = document.getElementById('openCal');
       const icsBtn  = document.getElementById('icsLink');
@@ -290,10 +294,10 @@
       const src = param(frame.src,'src');
       if (src){
         if (openBtn) openBtn.href = "https://calendar.google.com/calendar/u/0/r?cid=" + encodeURIComponent(src);
-        if (icsBtn)  icsBtn.href  = "https://calendar.google.com/calendar/ical/" + encodeURIComponent(src) + "/public/basic.ics";
+        if (icsBtn) icsBtn.href  = "https://calendar.google.com/calendar/ical/" + encodeURIComponent(src) + "/public/basic.ics";
       }
 
-      // Contact form handler (Formspree)
+      // Contact form (Formspree)
       const form = document.getElementById('contactForm');
       if (form){
         const note = document.getElementById('formNote');
@@ -323,55 +327,4 @@
               });
               if (!r.ok) throw new Error('Network response not ok');
               form.reset();
-              setNote('Thanks — your message has been sent.', true);
-            } catch (err) {
-              setNote('Sorry — something went wrong. Please try again or email hello@doublewinnersoc.org directly.', false);
-            }
-            return;
-          }
-          // Fallback mailto (shouldn’t hit since endpoint is set)
-          const subject = encodeURIComponent(`[DWOC] ${data.subject}`);
-          const body = encodeURIComponent(`Name: ${data.name}\nEmail: ${data.email}\n\n${data.message}`);
-          window.location.href = `mailto:hello@doublewinnersoc.org?subject=${subject}&body=${body}`;
-          setNote('Opening your email app… If nothing happens, email hello@doublewinnersoc.org.', true);
-        });
-      }
-
-      // ===== PDF Reader overlay logic =====
-      const modal = document.getElementById('pdfModal');
-      const pdfFrame = document.getElementById('pdfFrame');
-      const pdfOpen = document.getElementById('pdfOpen');
-      const pdfTitle = document.getElementById('pdfTitle');
-      const pdfClose = document.getElementById('pdfClose');
-
-      function openReader(href, title){
-        pdfFrame.src = href;
-        pdfOpen.href = href; // Open/Print in a new tab
-        pdfTitle.textContent = title || 'Reader';
-        modal.classList.add('open');
-        modal.setAttribute('aria-hidden','false');
-      }
-      function closeReader(){
-        modal.classList.remove('open');
-        modal.setAttribute('aria-hidden','true');
-        pdfFrame.src = '';
-      }
-
-      document.addEventListener('click', (e)=>{
-        const card = e.target.closest('.pdf-card');
-        if (!card) return;
-        // Allow ctrl/cmd click to open in new tab without intercepting
-        if (e.ctrlKey || e.metaKey) return;
-        e.preventDefault();
-        const href = card.getAttribute('data-pdf') || card.getAttribute('href');
-        const title = card.querySelector('span')?.textContent?.trim() || 'Reader';
-        openReader(href, title);
-      });
-
-      pdfClose.addEventListener('click', closeReader);
-      modal.addEventListener('click', (e)=>{ if (e.target === modal) closeReader(); });
-      document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape' && modal.classList.contains('open')) closeReader(); });
-    })();
-  </script>
-</body>
-</html>
+              setNote
