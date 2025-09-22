@@ -39,7 +39,9 @@
       border:1px solid var(--border);background:#1a2030;color:var(--text);font-weight:600;cursor:pointer}
     .btn:hover{background:#20283b}
 
-    iframe.calendar{width:100%;min-height:620px;border:0;border-radius:12px;background:#0c0f16}
+    iframe.calendar{width:100%;min-height:620px;border:0;border-radius:12px;background:#0a0c12}
+    .calendar-wrapper{background:#0a0c12;padding:6px;border-radius:12px}
+
     .thumb-list{display:grid;gap:12px;margin:18px 0 0;padding:0}
     .thumb-list li{list-style:none;display:flex;align-items:center;gap:10px}
     .thumb-list img{width:50px;height:auto;border:1px solid var(--border);border-radius:6px}
@@ -94,12 +96,14 @@
           <a id="openCal" class="btn" href="#" target="_blank" rel="noopener">Open in Google Calendar</a>
           <a id="icsLink" class="btn" href="#" target="_blank" rel="noopener">Subscribe (ICS)</a>
         </div>
-        <iframe
-          id="gcalFrame"
-          class="calendar"
-          src="https://calendar.google.com/calendar/embed?mode=AGENDA&showTabs=0&showPrint=0&showTitle=0&src=c_68a6088086a57a5f1a7552c92d86b7d64eda7be32444a1dcbed5f40f393b6042%40group.calendar.google.com&ctz=America%2FLos_Angeles"
-          title="Double Winners OC Calendar">
-        </iframe>
+        <div class="calendar-wrapper">
+          <iframe
+            id="gcalFrame"
+            class="calendar"
+            src="https://calendar.google.com/calendar/embed?mode=AGENDA&showTabs=0&showPrint=0&showTitle=0&bgcolor=%230a0c12&src=c_68a6088086a57a5f1a7552c92d86b7d64eda7be32444a1dcbed5f40f393b6042%40group.calendar.google.com&ctz=America%2FLos_Angeles"
+            title="Double Winners OC Calendar">
+          </iframe>
+        </div>
       </section>
     </div>
 
@@ -144,7 +148,6 @@
     (function(){
       const y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear();
 
-      // Build “Open in Google Calendar” + ICS links from iframe src
       const frame = document.getElementById('gcalFrame');
       const openBtn = document.getElementById('openCal');
       const icsBtn  = document.getElementById('icsLink');
