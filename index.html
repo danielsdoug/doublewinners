@@ -48,7 +48,7 @@
     iframe.calendar{width:100%;min-height:620px;border:0;border-radius:12px;background:#0a0c12}
     .calendar-wrapper{background:#0a0c12;padding:6px;border-radius:12px}
 
-    /* Readings grid */
+    /* Resources grid */
     .pdf-grid{display:grid;gap:14px;margin-top:6px}
     @media(min-width:640px){ .pdf-grid{grid-template-columns:repeat(2,1fr)} }
     @media(min-width:920px){ .pdf-grid{grid-template-columns:repeat(3,1fr)} }
@@ -120,7 +120,7 @@
         <a href="#welcome">Welcome</a>
         <a href="#calendar">DW Meetings</a>
         <a href="#double-winner">What is a Double Winner?</a>
-        <a href="#readings">Readings</a>
+        <a href="#resources">Resources</a>
         <a href="#contact">Contact</a>
       </nav>
     </div>
@@ -166,9 +166,12 @@
       </section>
     </div>
 
-    <!-- Readings -->
-    <section id="readings" class="card">
-      <h2>Readings</h2>
+    <!-- Resources -->
+    <section id="resources" class="card">
+      <h2>Resources</h2>
+      <p class="muted" style="margin-top:-6px;margin-bottom:10px;">
+        Resources for Double Winners Meetings — start your own or get ideas.
+      </p>
 
       <div class="pdf-grid">
         <a class="pdf-card" href="assets/Double-Winners-Leader-Format.pdf" data-pdf="assets/Double-Winners-Leader-Format.pdf">
@@ -275,6 +278,7 @@
         <div class="pdf-modal__title" id="pdfTitle">Reader</div>
         <div class="pdf-modal__actions">
           <a id="pdfOpen" href="#" target="_blank" rel="noopener">Open PDF</a>
+          <button id="pdfPrint" type="button" title="Print">Print</button>
           <button id="pdfClose" type="button">Close</button>
         </div>
       </div>
@@ -284,6 +288,7 @@
 
   <script>
     (function(){
+      // Year in footer
       const y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear();
 
       // Build “Open in Google Calendar” + ICS links
@@ -291,26 +296,26 @@
       const openBtn = document.getElementById('openCal');
       const icsBtn  = document.getElementById('icsLink');
       function param(u, k){ try{ return new URL(u).searchParams.get(k) || ""; }catch(e){ return ""; } }
-      const src = param(frame.src,'src');
+      const src = frame ? param(frame.src,'src') : "";
       if (src){
         if (openBtn) openBtn.href = "https://calendar.google.com/calendar/u/0/r?cid=" + encodeURIComponent(src);
-        if (icsBtn) icsBtn.href  = "https://calendar.google.com/calendar/ical/" + encodeURIComponent(src) + "/public/basic.ics";
+        if (icsBtn)  icsBtn.href  = "https://calendar.google.com/calendar/ical/" + encodeURIComponent(src) + "/public/basic.ics";
       }
 
-      // Contact form (Formspree)
+      // ===== Contact form (Formspree) =====
       const form = document.getElementById('contactForm');
       if (form){
         const note = document.getElementById('formNote');
-        const endpoint = form.dataset.endpoint?.trim();
+        const endpoint = (form.dataset.endpoint || '').trim();
         function setNote(msg, ok){
+          if(!note) return;
           note.textContent = msg;
           note.classList.remove('success','error');
           note.classList.add(ok ? 'success' : 'error');
         }
         form.addEventListener('submit', async (e)=>{
           e.preventDefault();
-          note.textContent = 'Sending...';
-          note.className = 'dw-note';
+          if (note){ note.textContent = 'Sending...'; note.className = 'dw-note'; }
           const data = {
             name: form.name.value.trim(),
             email: form.email.value.trim(),
@@ -327,4 +332,70 @@
               });
               if (!r.ok) throw new Error('Network response not ok');
               form.reset();
-              setNote
+              setNote('Thanks! Your message was sent.', true);
+            } catch(err){
+              setNote('Sorry, there was a problem sending your message. Please email hello@doublewinnersoc.org.', false);
+            }
+          } else {
+            setNote('Form endpoint missing. Please email hello@doublewinnersoc.org.', false);
+          }
+        });
+      }
+
+      // ===== PDF Reader Mode =====
+      const modal = document.getElementById('pdfModal');
+      const pdfTitle = document.getElementById('pdfTitle');
+      const pdfFrame = document.getElementById('pdfFrame');
+      const pdfOpen  = document.getElementById('pdfOpen');
+      const pdfClose = document.getElementById('pdfClose');
+      const pdfPrint = document.getElementById('pdfPrint');
+
+      function openReader(href, title){
+        if (!modal || !pdfFrame) return;
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden','false');
+        const viewUrl = href + '#view=FitH';
+        pdfFrame.src = viewUrl;
+        if (pdfTitle) pdfTitle.textContent = title || 'Reader';
+        if (pdfOpen) pdfOpen.href = href;
+      }
+      function closeReader(){
+        if (!modal || !pdfFrame) return;
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden','true');
+        // clear to stop PDF from continuing to render in background
+        pdfFrame.src = '';
+      }
+
+      // Delegate clicks from all .pdf-card
+      document.addEventListener('click', (ev)=>{
+        const card = ev.target.closest('.pdf-card');
+        if (!card) return;
+        const href = card.getAttribute('data-pdf') || card.getAttribute('href');
+        if (!href) return;
+        ev.preventDefault();
+        const title = card.querySelector('span')?.textContent?.trim() || 'PDF';
+        openReader(href, title);
+      });
+
+      // Close buttons & escape/outside click
+      if (pdfClose) pdfClose.addEventListener('click', closeReader);
+      if (modal) modal.addEventListener('click', (e)=>{
+        if (e.target === modal) closeReader();
+      });
+      document.addEventListener('keydown', (e)=>{
+        if (e.key === 'Escape' && modal?.classList.contains('open')) closeReader();
+      });
+
+      if (pdfPrint) pdfPrint.addEventListener('click', ()=>{
+        try{
+          const win = pdfFrame?.contentWindow;
+          win && win.print();
+        }catch(err){
+          alert('Use the Open PDF button, then print in your browser.');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
