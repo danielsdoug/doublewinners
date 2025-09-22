@@ -5,10 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Double Winners of Orange County</title>
 
-  <!-- Favicon -->
-  <link rel="icon" href="images/favicon2.ico" sizes="any">
-  <link rel="apple-touch-icon" href="images/logo2.png">
-
   <style>
     :root{
       --bg:#0f1115; --panel:#141824; --text:#e7ebf3; --muted:#9aa4b2;
@@ -24,7 +20,6 @@
       border-bottom:1px solid var(--border);z-index:20}
     .wrap{max-width:1100px;margin:auto;padding:24px}
     .brand{display:flex;align-items:center;gap:14px}
-    .brand img{height:32px;width:auto;filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
     .brand h1{margin:0;font-size:1.6rem}
     nav{margin-top:10px}
     nav a{margin-right:18px;font-weight:600}
@@ -55,7 +50,7 @@
     .pdf-card{
       display:flex;flex-direction:column;gap:8px;
       background:#121826;border:1px solid var(--border);border-radius:12px;
-      padding:12px;text-decoration:none;color:var(--text)
+      padding:12px;text-decoration:none;color:var(--text); cursor:pointer;
     }
     .pdf-card:hover{border-color:#2e3a56}
     .pdf-card img{width:100%;height:auto;border:1px solid var(--border);border-radius:8px;background:#0b0f16}
@@ -81,13 +76,38 @@
 
     footer{border-top:1px solid var(--border);margin-top:30px}
     small{color:var(--muted)}
+
+    /* ===== PDF Reader Overlay ===== */
+    .pdf-modal{
+      position:fixed; inset:0; display:none; place-items:center; z-index:1000;
+      background:rgba(0,0,0,.85); padding:20px;
+    }
+    .pdf-modal.open{ display:grid; }
+    .pdf-modal__panel{
+      width:min(95vw,1000px); height:min(92vh,900px);
+      background:#0b0f16; border:1px solid #2a3246; border-radius:14px; display:flex; flex-direction:column;
+      box-shadow:0 20px 60px rgba(0,0,0,.6);
+    }
+    .pdf-modal__bar{
+      display:flex; align-items:center; gap:10px; justify-content:space-between;
+      padding:10px 12px; border-bottom:1px solid #222b3b; background:#121826; border-radius:14px 14px 0 0;
+    }
+    .pdf-modal__title{font-weight:700}
+    .pdf-modal__actions{display:flex; gap:10px}
+    .pdf-modal__actions a, .pdf-modal__actions button{
+      border:1px solid var(--border); background:#1a2030; color:var(--text);
+      padding:8px 12px; border-radius:10px; cursor:pointer; text-decoration:none; font-weight:600;
+    }
+    .pdf-modal__actions a:hover, .pdf-modal__actions button:hover{ background:#20283b }
+    .pdf-frame{
+      width:100%; height:100%; border:0; border-radius:0 0 14px 14px; background:#0b0f16;
+    }
   </style>
 </head>
 <body>
   <header>
     <div class="wrap">
       <div class="brand">
-        <img src="images/logo2.png" alt="Double Winners OC logo">
         <h1>Double Winners of OC</h1>
       </div>
       <nav>
@@ -145,43 +165,43 @@
       <h2>Readings</h2>
 
       <div class="pdf-grid">
-        <a class="pdf-card" href="assets/Double-Winners-Leader-Format.pdf" target="_blank" rel="noopener">
+        <a class="pdf-card" href="assets/Double-Winners-Leader-Format.pdf" data-pdf="assets/Double-Winners-Leader-Format.pdf">
           <img src="images/thumb-leader.png" alt="Double-Winners Leader Format thumbnail">
           <span>Double-Winners Leader Format (PDF)</span>
         </a>
 
-        <a class="pdf-card" href="assets/dw-secretary-format.pdf" target="_blank" rel="noopener">
+        <a class="pdf-card" href="assets/dw-secretary-format.pdf" data-pdf="assets/dw-secretary-format.pdf">
           <img src="images/thumb-secretary.png" alt="DW Secretary Format thumbnail">
           <span>DW Secretary Format (PDF)</span>
         </a>
 
-        <a class="pdf-card" href="assets/dos-and-donts.pdf" target="_blank" rel="noopener">
+        <a class="pdf-card" href="assets/dos-and-donts.pdf" data-pdf="assets/dos-and-donts.pdf">
           <img src="images/thumb-dos.png" alt="Dos and Don’ts thumbnail">
           <span>Dos and Don’ts (PDF)</span>
         </a>
 
-        <a class="pdf-card" href="assets/dos_and_donts_business_card.pdf" target="_blank" rel="noopener">
+        <a class="pdf-card" href="assets/dos_and_donts_business_card.pdf" data-pdf="assets/dos_and_donts_business_card.pdf">
           <img src="images/thumb-dos-card.png" alt="Dos and Don’ts Business Card thumbnail">
           <span>Dos and Don’ts Business Card (PDF)</span>
         </a>
 
-        <a class="pdf-card" href="assets/Detachment.pdf" target="_blank" rel="noopener">
+        <a class="pdf-card" href="assets/Detachment.pdf" data-pdf="assets/Detachment.pdf">
           <img src="images/thumb-detachment.png" alt="Detachment thumbnail">
           <span>Detachment (PDF)</span>
         </a>
 
-        <a class="pdf-card" href="assets/letting-go.pdf" target="_blank" rel="noopener">
+        <a class="pdf-card" href="assets/letting-go.pdf" data-pdf="assets/letting-go.pdf">
           <img src="images/thumb-lettinggo.png" alt="Letting Go thumbnail">
           <span>Letting Go (PDF)</span>
         </a>
 
-        <a class="pdf-card" href="assets/opening-prayer.pdf" target="_blank" rel="noopener">
+        <a class="pdf-card" href="assets/opening-prayer.pdf" data-pdf="assets/opening-prayer.pdf">
           <img src="images/thumb-prayer.png" alt="Opening Prayer thumbnail">
           <span>Opening Prayer (PDF)</span>
         </a>
 
-        <!-- NEW: Meeting Topics 2025 -->
-        <a class="pdf-card" href="assets/Double-Winners-Meeting-Topics-2025.pdf" target="_blank" rel="noopener">
+        <!-- Meeting Topics 2025 -->
+        <a class="pdf-card" href="assets/Double-Winners-Meeting-Topics-2025.pdf" data-pdf="assets/Double-Winners-Meeting-Topics-2025.pdf">
           <img src="images/thumb-topics-2025.png" alt="Double Winners Meeting Topics 2025 thumbnail">
           <span>Double Winners Meeting Topics – 2025 (PDF)</span>
         </a>
@@ -205,8 +225,8 @@
       <h2>Contact</h2>
       <p>Questions? Email us at <a href="mailto:hello@doublewinnersoc.org">hello@doublewinnersoc.org</a>.</p>
 
-      <!-- Contact Form -->
-      <form id="contactForm" class="dw-form" data-endpoint="">
+      <!-- Contact Form (wired to your endpoint) -->
+      <form id="contactForm" class="dw-form" data-endpoint="https://formspree.io/f/xwprebja">
         <div class="dw-row">
           <label>
             <span>Name</span>
@@ -238,6 +258,20 @@
     <small>© <span id="year"></span> Double Winners Orange County, Calif. <br>A public service site from the San Clemente Friendship Center.</small>
   </footer>
 
+  <!-- ===== PDF Reader Overlay (modal) ===== -->
+  <div class="pdf-modal" id="pdfModal" aria-hidden="true" role="dialog" aria-label="Reader">
+    <div class="pdf-modal__panel">
+      <div class="pdf-modal__bar">
+        <div class="pdf-modal__title" id="pdfTitle">Reader</div>
+        <div class="pdf-modal__actions">
+          <a id="pdfOpen" href="#" target="_blank" rel="noopener">Open PDF</a>
+          <button id="pdfClose" type="button">Close</button>
+        </div>
+      </div>
+      <iframe id="pdfFrame" class="pdf-frame" src="" title="PDF preview"></iframe>
+    </div>
+  </div>
+
   <script>
     (function(){
       const y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear();
@@ -253,53 +287,84 @@
         if (icsBtn)  icsBtn.href  = "https://calendar.google.com/calendar/ical/" + encodeURIComponent(src) + "/public/basic.ics";
       }
 
-      // Contact form handler
+      // Contact form handler (Formspree)
       const form = document.getElementById('contactForm');
-      if (!form) return;
-      const note = document.getElementById('formNote');
-      const endpoint = form.dataset.endpoint?.trim();
-
-      function setNote(msg, ok){
-        note.textContent = msg;
-        note.classList.remove('success','error');
-        note.classList.add(ok ? 'success' : 'error');
+      if (form){
+        const note = document.getElementById('formNote');
+        const endpoint = form.dataset.endpoint?.trim();
+        function setNote(msg, ok){
+          note.textContent = msg;
+          note.classList.remove('success','error');
+          note.classList.add(ok ? 'success' : 'error');
+        }
+        form.addEventListener('submit', async (e)=>{
+          e.preventDefault();
+          note.textContent = 'Sending...';
+          note.className = 'dw-note';
+          const data = {
+            name: form.name.value.trim(),
+            email: form.email.value.trim(),
+            subject: form.subject.value.trim(),
+            message: form.message.value.trim(),
+            _site: 'doublewinnersoc.org'
+          };
+          if (endpoint) {
+            try {
+              const r = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify(data)
+              });
+              if (!r.ok) throw new Error('Network response not ok');
+              form.reset();
+              setNote('Thanks — your message has been sent.', true);
+            } catch (err) {
+              setNote('Sorry — something went wrong. Please try again or email hello@doublewinnersoc.org directly.', false);
+            }
+            return;
+          }
+          // Fallback mailto (shouldn’t hit since endpoint is set)
+          const subject = encodeURIComponent(`[DWOC] ${data.subject}`);
+          const body = encodeURIComponent(`Name: ${data.name}\nEmail: ${data.email}\n\n${data.message}`);
+          window.location.href = `mailto:hello@doublewinnersoc.org?subject=${subject}&body=${body}`;
+          setNote('Opening your email app… If nothing happens, email hello@doublewinnersoc.org.', true);
+        });
       }
 
-      form.addEventListener('submit', async (e)=>{
+      // ===== PDF Reader overlay logic =====
+      const modal = document.getElementById('pdfModal');
+      const pdfFrame = document.getElementById('pdfFrame');
+      const pdfOpen = document.getElementById('pdfOpen');
+      const pdfTitle = document.getElementById('pdfTitle');
+      const pdfClose = document.getElementById('pdfClose');
+
+      function openReader(href, title){
+        pdfFrame.src = href;
+        pdfOpen.href = href; // Open/Print in a new tab
+        pdfTitle.textContent = title || 'Reader';
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden','false');
+      }
+      function closeReader(){
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden','true');
+        pdfFrame.src = '';
+      }
+
+      document.addEventListener('click', (e)=>{
+        const card = e.target.closest('.pdf-card');
+        if (!card) return;
+        // Allow ctrl/cmd click to open in new tab without intercepting
+        if (e.ctrlKey || e.metaKey) return;
         e.preventDefault();
-        note.textContent = 'Sending...';
-        note.className = 'dw-note';
-
-        const data = {
-          name: form.name.value.trim(),
-          email: form.email.value.trim(),
-          subject: form.subject.value.trim(),
-          message: form.message.value.trim(),
-          _site: 'doublewinnersoc.org'
-        };
-
-        if (endpoint) {
-          try {
-            const r = await fetch(endpoint, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-              body: JSON.stringify(data)
-            });
-            if (!r.ok) throw new Error('Network response not ok');
-            form.reset();
-            setNote('Thanks — your message has been sent.', true);
-          } catch (err) {
-            setNote('Sorry — something went wrong. Please try again or email hello@doublewinnersoc.org directly.', false);
-          }
-          return;
-        }
-
-        // Fallback to mailto
-        const subject = encodeURIComponent(`[DWOC] ${data.subject}`);
-        const body = encodeURIComponent(`Name: ${data.name}\nEmail: ${data.email}\n\n${data.message}`);
-        window.location.href = `mailto:hello@doublewinnersoc.org?subject=${subject}&body=${body}`;
-        setNote('Opening your email app… If nothing happens, email hello@doublewinnersoc.org.', true);
+        const href = card.getAttribute('data-pdf') || card.getAttribute('href');
+        const title = card.querySelector('span')?.textContent?.trim() || 'Reader';
+        openReader(href, title);
       });
+
+      pdfClose.addEventListener('click', closeReader);
+      modal.addEventListener('click', (e)=>{ if (e.target === modal) closeReader(); });
+      document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape' && modal.classList.contains('open')) closeReader(); });
     })();
   </script>
 </body>
